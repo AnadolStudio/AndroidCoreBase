@@ -33,11 +33,10 @@ class FragmentViewBindingFactory<T : ViewBinding>(
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
         val binding = binding
 
-        if (binding != null) {
-            return binding
-        }
+        if (binding != null) return binding
 
         val lifecycle = fragment.viewLifecycleOwner.lifecycle
+
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
             throw IllegalStateException("Should not attempt to get bindings when Fragment views are destroyed.")
         }

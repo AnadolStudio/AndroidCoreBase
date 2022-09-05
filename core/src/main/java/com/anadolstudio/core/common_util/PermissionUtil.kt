@@ -1,4 +1,4 @@
-package com.anadolstudio.core.util
+package com.anadolstudio.core.common_util
 
 import android.Manifest
 import android.content.pm.PackageManager

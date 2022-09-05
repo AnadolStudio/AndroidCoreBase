@@ -1,8 +1,7 @@
-package com.anadolstudio.core.util
+package com.anadolstudio.core.common_util
 
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 object TimeUtil {
     private const val TAG = "TimeUtil"
