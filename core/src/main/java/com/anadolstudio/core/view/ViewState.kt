@@ -2,14 +2,22 @@ package com.anadolstudio.core.view
 
 import android.view.View
 
-class ViewState(val view: View) {
-    private val translationX = view.translationX
-    private val translationY = view.translationX
-    private val scaleX = view.scaleX
-    private val scaleY = view.scaleY
-    private val rotation = view.rotation
+class ViewState(
+    private val translationX: Float,
+    private val translationY: Float,
+    private val scaleX: Float,
+    private val scaleY: Float,
+    private val rotation: Float
+) {
+    constructor(view: View) : this(
+        translationX = view.translationX,
+        translationY = view.translationX,
+        scaleX = view.scaleX,
+        scaleY = view.scaleY,
+        rotation = view.rotation,
+    )
 
-    fun rebootToDefault() {
+    fun rebootToDefault(view: View) {
         view.translationX = translationX
         view.translationY = translationY
         view.scaleX = scaleX
@@ -17,7 +25,7 @@ class ViewState(val view: View) {
         view.rotation = rotation
     }
 
-    fun rebootToDefaultWithAnim() {
+    fun rebootToDefaultWithAnim(view: View) {
         view.animate()
             .translationX(translationX)
             .translationY(translationY)
@@ -28,7 +36,7 @@ class ViewState(val view: View) {
         view.clearAnimation()
     }
 
-    fun rebootToDefaultTranslation() {
+    fun rebootToDefaultTranslation(view: View) {
         view.translationX = translationX
         view.translationY = translationY
     }
