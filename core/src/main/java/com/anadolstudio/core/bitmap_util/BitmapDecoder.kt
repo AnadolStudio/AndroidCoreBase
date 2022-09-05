@@ -1,4 +1,4 @@
-package com.anadolstudio.core.util
+package com.anadolstudio.core.bitmap_util
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -99,8 +99,7 @@ interface BitmapDecoder {
             options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight, true)
             options.inJustDecodeBounds = false
 
-            pfd = context.contentResolver.openFileDescriptor(Uri.parse(path), "r")
-                    //необходимо опять его открыть
+            pfd = context.contentResolver.openFileDescriptor(Uri.parse(path), "r") //необходимо опять его открыть
                 ?: throw IllegalArgumentException("ParcelFileDescriptor is null")
 
             val bitmap =
@@ -115,10 +114,12 @@ interface BitmapDecoder {
     }
 
     object Manager {
-        const val CONTENT = "content:"
+        private const val CONTENT = "content:"
 
         fun decodeBitmapFromPath(context: Context, path: String, reqWidth: Int, reqHeight: Int): Bitmap =
-            (if (path.contains(CONTENT)) FromContentPath(context) else FromRealPath())
-                .decode(path, reqWidth, reqHeight)
+            when (path.contains(CONTENT)) {
+                true -> FromContentPath(context)
+                false -> FromRealPath()
+            }.decode(path, reqWidth, reqHeight)
     }
 }

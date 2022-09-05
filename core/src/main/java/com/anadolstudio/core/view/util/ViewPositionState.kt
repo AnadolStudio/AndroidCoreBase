@@ -1,8 +1,8 @@
-package com.anadolstudio.core.view
+package com.anadolstudio.core.view.util
 
 import android.view.View
 
-class ViewState(
+class ViewPositionState(
     private val translationX: Float,
     private val translationY: Float,
     private val scaleX: Float,
