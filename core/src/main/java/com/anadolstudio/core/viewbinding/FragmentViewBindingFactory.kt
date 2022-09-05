@@ -41,7 +41,7 @@ class FragmentViewBindingFactory<T : ViewBinding>(
             throw IllegalStateException("Should not attempt to get bindings when Fragment views are destroyed.")
         }
 
-        return viewBindingFactory(thisRef.requireView()).also { this.binding = it }
+        return viewBindingFactory(thisRef.requireView()).also { view -> this.binding = view }
     }
 }
 
