@@ -8,13 +8,14 @@ open class DoubleClick(private val delay: Long = DEFAULT_DELAY) {
 
     fun onDoubleClickAction(onSimpleClick: (() -> Unit)? = null, onDoubleClick: () -> Unit) {
         val currentTime = System.currentTimeMillis()
+        val wasDoubleClick = lastClickTime + delay > currentTime
 
-        when (lastClickTime + delay > currentTime) {
+        when (wasDoubleClick) {
             true -> onDoubleClick.invoke()
             false -> onSimpleClick?.invoke()
         }
 
-        lastClickTime = currentTime
+        lastClickTime = if (wasDoubleClick) 0L else currentTime
     }
 }
 
