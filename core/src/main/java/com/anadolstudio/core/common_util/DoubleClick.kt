@@ -20,14 +20,7 @@ open class DoubleClick(private val delay: Long = DEFAULT_DELAY) {
 
 private const val DEFAULT_DELAY = 2000L
 
-fun doubleClickAction(
-    delay: Long = DEFAULT_DELAY,
-    onSimpleClick: (() -> Unit)? = null,
-    onDoubleClick: () -> Unit
-) {
-    DoubleClick(delay).onDoubleClickAction(onSimpleClick, onDoubleClick)
-}
-
 fun View.doubleClick(delay: Long = DEFAULT_DELAY, onSimpleClick: (() -> Unit)? = null, onDoubleClick: () -> Unit) {
-    setOnClickListener { doubleClickAction(delay, onSimpleClick, onDoubleClick) }
+    val action = DoubleClick(delay)
+    setOnClickListener { action.onDoubleClickAction(onSimpleClick, onDoubleClick) }
 }
