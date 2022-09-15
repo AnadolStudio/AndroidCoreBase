@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 open class BaseSpaceItemDecoration(
-    private val padding: Rect = Rect(NORMAL_SPACE, NORMAL_SPACE, NORMAL_SPACE, NORMAL_SPACE),
+        private val padding: Rect = Rect(NORMAL_SPACE, NORMAL_SPACE, NORMAL_SPACE, NORMAL_SPACE),
 ) : RecyclerView.ItemDecoration() {
 
     constructor(space: Int = NORMAL_SPACE) : this(Rect(space, space, space, space))

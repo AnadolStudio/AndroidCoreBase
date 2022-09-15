@@ -12,8 +12,8 @@ interface PermissionUtil {
     fun shouldShowRequestPermissionRationale(activity: AppCompatActivity): Boolean
 
     fun requestPermission(
-        activity: AppCompatActivity,
-        requestCode: Int
+            activity: AppCompatActivity,
+            requestCode: Int
     )
 
     abstract class Abstract(private val permission: String) : PermissionUtil {
@@ -23,17 +23,17 @@ interface PermissionUtil {
         }
 
         override fun requestPermission(
-            activity: AppCompatActivity,
-            requestCode: Int
+                activity: AppCompatActivity,
+                requestCode: Int
         ) = ActivityCompat.requestPermissions(activity, arrayOf(permission), requestCode)
 
         override fun checkPermission(activity: AppCompatActivity): Boolean = ActivityCompat
-            .checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
+                .checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
 
         override fun shouldShowRequestPermissionRationale(activity: AppCompatActivity): Boolean =
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                activity, permission
-            )
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                        activity, permission
+                )
 
     }
 

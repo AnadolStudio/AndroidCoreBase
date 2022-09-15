@@ -11,9 +11,9 @@ open class ActionThrottler(private val defaultDelay: Long) {
     }
 
     fun throttleActionWithResult(
-        delay: Long = defaultDelay,
-        onThrottled: () -> Unit = {},
-        action: () -> Unit
+            delay: Long = defaultDelay,
+            onThrottled: () -> Unit = {},
+            action: () -> Unit
     ): Boolean {
         val currentTime = SystemClock.elapsedRealtime()
         val diff = currentTime - lastActionTime
@@ -38,15 +38,15 @@ fun throttleAction(delay: Long = APP_ACTION_THROTTLER_DELAY, onThrottled: () -> 
 }
 
 fun throttleActionWithResult(
-    delay: Long = APP_ACTION_THROTTLER_DELAY,
-    onThrottled: () -> Unit = {},
-    action: () -> Unit
+        delay: Long = APP_ACTION_THROTTLER_DELAY,
+        onThrottled: () -> Unit = {},
+        action: () -> Unit
 ): Boolean = AppActionThrottler.throttleActionWithResult(delay, onThrottled, action)
 
 fun View.throttleClick(
-    delay: Long = APP_ACTION_THROTTLER_DELAY,
-    onThrottled: () -> Unit = {},
-    action: () -> Unit
+        delay: Long = APP_ACTION_THROTTLER_DELAY,
+        onThrottled: () -> Unit = {},
+        action: () -> Unit
 ) {
     setOnClickListener { throttleAction(delay, onThrottled, action) }
 }

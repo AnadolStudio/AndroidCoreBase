@@ -5,9 +5,9 @@ import androidx.cardview.widget.CardView
 import com.anadolstudio.core.adapters.selectablecontroller.SelectableController
 
 abstract class AbstractSelectableViewHolder<Data : Any>(
-    view: View,
-    detailable: ActionClick<Data>?,
-    val controller: SelectableController<AbstractSelectableViewHolder<Data>>?
+        view: View,
+        detailable: ActionClick<Data>?,
+        val controller: SelectableController<AbstractSelectableViewHolder<Data>>?
 ) : AbstractViewHolder<Data>(view, detailable) {
 
     open fun onBind(data: Data, isSelected: Boolean) {
@@ -35,20 +35,20 @@ abstract class AbstractSelectableViewHolder<Data : Any>(
         super.onClick(view)
 
         if (controller != null &&
-            (!controller.selectableItemIsExist() || controller.getCurrentPosition() != this.adapterPosition)
+                (!controller.selectableItemIsExist() || controller.getCurrentPosition() != this.adapterPosition)
         ) {
             controller.setCurrentSelectedItem(this)
         }
     }
 
     abstract class Base<Data : Any>(
-        view: View,
-        detailable: ActionClick<Data>?,
-        controller: SelectableController<out AbstractSelectableViewHolder<Data>>
+            view: View,
+            detailable: ActionClick<Data>?,
+            controller: SelectableController<out AbstractSelectableViewHolder<Data>>
     ) : AbstractSelectableViewHolder<Data>(
-        view,
-        detailable,
-        controller as SelectableController<AbstractSelectableViewHolder<Data>>
+            view,
+            detailable,
+            controller as SelectableController<AbstractSelectableViewHolder<Data>>
     ) {
         override fun initClickView(): View = itemView
     }
