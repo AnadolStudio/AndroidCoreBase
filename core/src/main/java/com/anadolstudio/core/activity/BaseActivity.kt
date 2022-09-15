@@ -7,6 +7,8 @@ import com.anadolstudio.core.livedata.SingleMessage
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    abstract fun defaultErrorMessage(): String
+
     abstract fun showError(event: SingleError)
 
     abstract fun showMessage(event: SingleMessage)

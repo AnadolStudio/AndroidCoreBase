@@ -5,7 +5,7 @@ import com.anadolstudio.core.livedata.SingleMessage
 
 // SingleMessage
 
-class SingleMessageToast(text: String) : SingleMessage(text)
+class SingleMessageToast(text: String? = null) : SingleMessage(text)
 
 class SingleMessageSnack(text: String) : SingleMessage(text)
 
