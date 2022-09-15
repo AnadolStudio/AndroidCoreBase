@@ -16,15 +16,15 @@ abstract class AbstractAdapter<Data : Any, Holder : AbstractViewHolder<Data>>(
 
     abstract val diffUtilCallback: BaseDiffUtilCallback<Data>?
 
-    open fun setData(list: MutableList<Data>) {
+    open fun setData(list: List<Data>) {
         diffUtilCallback
                 ?.let { callback ->
                     callback.updateData(dataList, list)
                     val diffResult = DiffUtil.calculateDiff(callback, false)
-                    dataList = list
+                    dataList = list.toMutableList()
                     diffResult.dispatchUpdatesTo(this)
                 }
-                ?: let { dataList = list }
+                ?: let { dataList = list.toMutableList() }
     }
 
     open fun addData(list: List<Data>) {
