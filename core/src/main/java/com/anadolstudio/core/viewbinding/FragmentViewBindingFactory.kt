@@ -10,8 +10,8 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 class FragmentViewBindingFactory<T : ViewBinding>(
-    val fragment: Fragment,
-    val viewBindingFactory: (View) -> T
+        val fragment: Fragment,
+        val viewBindingFactory: (View) -> T
 ) : ReadOnlyProperty<Fragment, T> {
     private var binding: T? = null
 
@@ -46,4 +46,4 @@ class FragmentViewBindingFactory<T : ViewBinding>(
 }
 
 fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
-    FragmentViewBindingFactory(this, viewBindingFactory)
+        FragmentViewBindingFactory(this, viewBindingFactory)

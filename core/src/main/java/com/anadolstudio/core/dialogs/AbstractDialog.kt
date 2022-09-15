@@ -11,7 +11,7 @@ import com.anadolstudio.core.databinding.ViewSimpleTextBinding
 typealias Listener = () -> Unit
 
 abstract class AbstractDialog(
-    var positiveListener: Listener? = null, var negativeListener: Listener? = null
+        var positiveListener: Listener? = null, var negativeListener: Listener? = null
 ) : DialogFragment() {
 
     companion object {
@@ -49,7 +49,7 @@ abstract class AbstractDialog(
     }
 
     abstract class ChoiceDialog(
-        positiveListener: Listener?, negativeListener: Listener?
+            positiveListener: Listener?, negativeListener: Listener?
     ) : AbstractDialog(positiveListener, negativeListener) {
 
         override fun initButtons(alertDialogBuilder: AlertDialog.Builder) {

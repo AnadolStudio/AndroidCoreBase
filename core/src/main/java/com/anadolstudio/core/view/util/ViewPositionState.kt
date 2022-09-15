@@ -3,18 +3,18 @@ package com.anadolstudio.core.view.util
 import android.view.View
 
 class ViewPositionState(
-    private val translationX: Float,
-    private val translationY: Float,
-    private val scaleX: Float,
-    private val scaleY: Float,
-    private val rotation: Float
+        private val translationX: Float,
+        private val translationY: Float,
+        private val scaleX: Float,
+        private val scaleY: Float,
+        private val rotation: Float
 ) {
     constructor(view: View) : this(
-        translationX = view.translationX,
-        translationY = view.translationX,
-        scaleX = view.scaleX,
-        scaleY = view.scaleY,
-        rotation = view.rotation,
+            translationX = view.translationX,
+            translationY = view.translationX,
+            scaleX = view.scaleX,
+            scaleY = view.scaleY,
+            rotation = view.rotation,
     )
 
     fun rebootToDefault(view: View) {
@@ -27,11 +27,11 @@ class ViewPositionState(
 
     fun rebootToDefaultWithAnim(view: View) {
         view.animate()
-            .translationX(translationX)
-            .translationY(translationY)
-            .scaleX(scaleX)
-            .scaleY(scaleY)
-            .rotation(rotation)
+                .translationX(translationX)
+                .translationY(translationY)
+                .scaleX(scaleX)
+                .scaleY(scaleY)
+                .rotation(rotation)
 
         view.clearAnimation()
     }

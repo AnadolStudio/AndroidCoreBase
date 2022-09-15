@@ -20,7 +20,7 @@ interface SelectableController<Holder : RecyclerView.ViewHolder> {
     fun clear()
 
     abstract class Abstract<Data : Any, Holder : AbstractSelectableViewHolder<Data>> :
-        SelectableController<Holder> {
+            SelectableController<Holder> {
 
         protected var selectedItem: Holder? = null
         protected var state = -1

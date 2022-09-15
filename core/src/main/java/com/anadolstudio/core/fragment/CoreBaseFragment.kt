@@ -12,5 +12,5 @@ abstract class CoreBaseFragment<ViewState>(@LayoutRes private val layoutId: Int)
     abstract fun render(state: ViewState)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(layoutId, container, false)
+            inflater.inflate(layoutId, container, false)
 }
