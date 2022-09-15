@@ -2,11 +2,11 @@ package com.anadolstudio.core.common_util
 
 import android.view.View
 
-open class DoubleClick(private val delay: Long = DEFAULT_DELAY) {
+open class DoubleClick() {
 
     private var lastClickTime: Long = 0L
 
-    fun onDoubleClickAction(onSimpleClick: (() -> Unit)? = null, onDoubleClick: () -> Unit) {
+    fun onDoubleClickAction(delay: Long = DEFAULT_DELAY, onSimpleClick: (() -> Unit)? = null, onDoubleClick: () -> Unit) {
         val currentTime = System.currentTimeMillis()
 
         lastClickTime = when (lastClickTime + delay > currentTime) {
@@ -18,7 +18,12 @@ open class DoubleClick(private val delay: Long = DEFAULT_DELAY) {
 
 private const val DEFAULT_DELAY = 2000L
 
+private object AppDoubleClick : DoubleClick()
+
 fun View.doubleClick(delay: Long = DEFAULT_DELAY, onSimpleClick: (() -> Unit)? = null, onDoubleClick: () -> Unit) {
-    val action = DoubleClick(delay)
-    setOnClickListener { action.onDoubleClickAction(onSimpleClick, onDoubleClick) }
+    setOnClickListener { AppDoubleClick.onDoubleClickAction(delay, onSimpleClick, onDoubleClick) }
+}
+
+fun doubleClickAction(delay: Long = DEFAULT_DELAY, onSimpleClick: (() -> Unit)? = null, onDoubleClick: () -> Unit) {
+    AppDoubleClick.onDoubleClickAction(delay, onSimpleClick, onDoubleClick)
 }
