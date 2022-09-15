@@ -1,15 +1,19 @@
 package com.anadolstudio.core.activity
 
 import androidx.appcompat.app.AppCompatActivity
+import com.anadolstudio.core.livedata.SingleError
+import com.anadolstudio.core.livedata.SingleEvent
+import com.anadolstudio.core.livedata.SingleMessage
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    abstract fun showError(error: Throwable)
+    abstract fun showError(event: SingleError)
 
-    abstract fun showMessage(message: MessageType)
+    abstract fun showMessage(event: SingleMessage)
 
-    abstract fun showErrorDialog()
+    abstract fun showMessageDialog(event: SingleMessageDialog)
 
-    abstract fun showInformationDialog()
+    abstract fun showErrorDialog(event: SingleErrorDialog)
 
+    abstract fun handleEvent(event: SingleEvent)
 }
