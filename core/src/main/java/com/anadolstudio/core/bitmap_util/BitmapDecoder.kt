@@ -18,7 +18,7 @@ interface BitmapDecoder {
                 outHeight: Int,
                 reqWidth: Int,
                 reqHeight: Int,
-                isHard: Boolean = true
+                isHard: Boolean = true // TODO изменить нейминг
         ): Int {
             // Реальные размеры изображения
             var inSampleSize = 1
