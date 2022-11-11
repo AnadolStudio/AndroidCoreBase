@@ -14,19 +14,18 @@ interface BitmapDecoder {
     abstract class Abstract : BitmapDecoder {
 
         open fun calculateInSampleSize(
-                options: BitmapFactory.Options,
+                outWidth: Int,
+                outHeight: Int,
                 reqWidth: Int,
                 reqHeight: Int,
-                isHard: Boolean = true
+                isHard: Boolean = true // TODO изменить нейминг
         ): Int {
             // Реальные размеры изображения
-            val height = options.outHeight
-            val width = options.outWidth
             var inSampleSize = 1
 
-            if (height > reqHeight || width > reqWidth) {
-                val halfHeight = height / 2
-                val halfWidth = width / 2
+            if (outHeight > reqHeight || outWidth > reqWidth) {
+                val halfHeight = outHeight / 2
+                val halfWidth = outWidth / 2
 
                 while (
                         if (isHard) halfHeight / inSampleSize > reqHeight || halfWidth / inSampleSize > reqWidth
@@ -72,7 +71,7 @@ interface BitmapDecoder {
             BitmapFactory.decodeFile(path, options)
             val orientation = ExifInterface(path).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1)
 
-            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight, true)
+            options.inSampleSize = calculateInSampleSize(options.outWidth, options.outHeight, reqWidth, reqHeight, true)
             options.inJustDecodeBounds = false
             val bitmap: Bitmap = BitmapFactory.decodeFile(path, options)
             val degree: Int = getDegree(orientation)
@@ -96,7 +95,7 @@ interface BitmapDecoder {
                     ExifInterface.TAG_ORIENTATION, 1
             )
             pfd.close()
-            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight, true)
+            options.inSampleSize = calculateInSampleSize(options.outWidth, options.outHeight, reqWidth, reqHeight, true)
             options.inJustDecodeBounds = false
 
             pfd = context.contentResolver.openFileDescriptor(Uri.parse(path), "r") //необходимо опять его открыть
