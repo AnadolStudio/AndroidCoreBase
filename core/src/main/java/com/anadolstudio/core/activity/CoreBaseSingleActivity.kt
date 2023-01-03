@@ -1,11 +1,13 @@
 package com.anadolstudio.core.activity
 
 import androidx.appcompat.app.AppCompatActivity
+import com.anadolstudio.core.event.SingleErrorDialog
+import com.anadolstudio.core.event.SingleMessageDialog
 import com.anadolstudio.core.livedata.SingleError
 import com.anadolstudio.core.livedata.SingleEvent
 import com.anadolstudio.core.livedata.SingleMessage
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class CoreBaseSingleActivity : AppCompatActivity() {
 
     abstract fun defaultErrorMessage(): String
 
