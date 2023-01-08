@@ -6,6 +6,9 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.VISIBLE
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 
 object AnimateUtil {
     const val DURATION_SHORT: Long = 200
@@ -150,4 +153,12 @@ object AnimateUtil {
             .setDuration(DURATION_SHORT)
             .withEndAction { action?.invoke() }
             .start()
+
+    fun blinkAnimation(): Animation = AlphaAnimation(1f, 0f).apply {
+        duration = 1000
+        interpolator = AccelerateDecelerateInterpolator()
+        repeatCount = Animation.INFINITE
+        repeatMode = Animation.REVERSE
+    }
+
 }
