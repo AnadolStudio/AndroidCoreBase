@@ -1,7 +1,10 @@
 package com.anadolstudio.core.dialogs
 
+import android.app.Dialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -9,10 +12,11 @@ import com.anadolstudio.core.R
 import com.anadolstudio.core.view.snackbar.NoSwipeBehavior
 import com.anadolstudio.core.view.snackbar.decorate
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseBottomDialogFragment : BottomSheetDialogFragment() {
+abstract class BaseBottomDialogFragment(private val layoutId: Int) : BottomSheetDialogFragment() {
 
     abstract fun getDialogTag(): String
 
@@ -21,6 +25,19 @@ abstract class BaseBottomDialogFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isRounded) setStyle(DialogFragment.STYLE_NORMAL, R.style.RoundCornerBottomSheetTheme)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(layoutId, container, false)
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+
+        bottomSheetDialog.setOnShowListener {
+            val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            setDialogOptions(bottomSheet)
+        }
+        return bottomSheetDialog
     }
 
     fun show(fragmentManager: FragmentManager) {
