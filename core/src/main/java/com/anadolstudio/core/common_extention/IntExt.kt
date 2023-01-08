@@ -1,0 +1,3 @@
+package com.anadolstudio.core.common_extention
+
+fun Int.toColorHex(): String = String.format("#%06X", 0xFFFFFF and this)
