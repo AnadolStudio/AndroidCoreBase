@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="RoundCornerBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_bottom_sheet_dialog_background</item>
+    </style>
+
+    <style name="RoundCornerBottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundCornerBottomSheetStyle</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+</resources>
