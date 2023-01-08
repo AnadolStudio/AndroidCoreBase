@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="54dp">
+        android:layout_height="56dp">
 
         <LinearLayout
             android:id="@+id/toolbar_icon_container"
@@ -26,7 +26,8 @@
             android:id="@+id/toolbar_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
+            app:layout_goneMarginStart="16dp"
             android:lines="1"
             android:textColor="@android:color/black"
             android:textSize="20dp"
@@ -40,11 +41,13 @@
             android:id="@+id/toolbar_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@drawable/ic_arrow_back" />
+            app:src="@drawable/ic_arrow_back"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

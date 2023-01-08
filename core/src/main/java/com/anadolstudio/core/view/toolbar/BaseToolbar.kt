@@ -9,6 +9,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.annotation.StyleRes
 import androidx.cardview.widget.CardView
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.isVisible
 import com.anadolstudio.core.R
 import com.anadolstudio.core.common_util.throttleClick
 import com.anadolstudio.core.databinding.ViewToolbarBinding
@@ -44,6 +45,10 @@ open class BaseToolbar @JvmOverloads constructor(
         }
 
         binding.toolbarIconContainer.addView(view)
+    }
+
+    fun setBackIconVisible(isVisible: Boolean) {
+        binding.toolbarBackButton.isVisible = isVisible
     }
 
     fun setBackClickListener(listener: () -> Unit) = binding.toolbarBackButton.throttleClick { listener.invoke() }
