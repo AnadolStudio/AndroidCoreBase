@@ -14,11 +14,37 @@ import com.anadolstudio.core.livedata.SingleCustomEvent
 import com.anadolstudio.core.livedata.SingleError
 import com.anadolstudio.core.livedata.SingleEvent
 import com.anadolstudio.core.livedata.SingleMessage
+import com.anadolstudio.core.viewmodel.BaseViewModel
+import com.anadolstudio.core.viewmodel.BaseViewState
+import com.anadolstudio.core.viewmodel.observe
 import com.google.android.material.snackbar.Snackbar
 
-abstract class CoreBaseFragment<ViewState>(@LayoutRes private val layoutId: Int) : Fragment() {
+abstract class CoreBaseFragment<ViewState, ViewModel : BaseViewModel<ViewState>>(@LayoutRes private val layoutId: Int) : Fragment() {
 
-    abstract fun render(state: ViewState)
+    protected lateinit var viewModel: ViewModel
+
+    protected open fun render(state: BaseViewState<ViewState>) = when (state) {
+        is BaseViewState.Content -> showContent(state.content)
+        is BaseViewState.Loading -> showLoading()
+        is BaseViewState.Stub -> showStub()
+    }
+
+    protected abstract fun showContent(content: ViewState)
+    protected abstract fun showLoading()
+    protected open fun showStub() = Unit
+
+    protected open fun setupViewModel() {
+        viewModel = createViewModel()
+        observe(viewModel.event, this::handleEvent)
+        observe(viewModel.state, this::render)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
+    }
+
+    protected abstract fun createViewModel(): ViewModel
 
     protected open fun handleEvent(event: SingleEvent) = when (event) {
         is SingleMessage -> handleMessageEvent(event)
