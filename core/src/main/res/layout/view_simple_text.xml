@@ -10,9 +10,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center_vertical"
+        android:paddingEnd="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
         android:paddingTop="@dimen/padding_large"
-        android:paddingEnd="@dimen/padding_large"
         android:textSize="@dimen/text_title_small" />
 
 </FrameLayout>

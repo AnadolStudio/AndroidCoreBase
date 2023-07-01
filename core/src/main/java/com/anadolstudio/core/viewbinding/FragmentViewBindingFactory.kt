@@ -10,8 +10,8 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 class FragmentViewBindingFactory<T : ViewBinding>(
-    val fragment: Fragment,
-    val viewBindingFactory: (View) -> T
+        val fragment: Fragment,
+        val viewBindingFactory: (View) -> T
 ) : ReadOnlyProperty<Fragment, T> {
     private var binding: T? = null
 
@@ -33,18 +33,17 @@ class FragmentViewBindingFactory<T : ViewBinding>(
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
         val binding = binding
 
-        if (binding != null) {
-            return binding
-        }
+        if (binding != null) return binding
 
         val lifecycle = fragment.viewLifecycleOwner.lifecycle
+
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
             throw IllegalStateException("Should not attempt to get bindings when Fragment views are destroyed.")
         }
 
-        return viewBindingFactory(thisRef.requireView()).also { this.binding = it }
+        return viewBindingFactory(thisRef.requireView()).also { view -> this.binding = view }
     }
 }
 
 fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
-    FragmentViewBindingFactory(this, viewBindingFactory)
+        FragmentViewBindingFactory(this, viewBindingFactory)
