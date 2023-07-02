@@ -5,6 +5,7 @@ import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -13,6 +14,14 @@ fun <T : Any> singleFrom(action: () -> T): Single<T> = Single.create { emitter -
     try {
         val result = action.invoke()
         emitter.onSuccess(result)
+    } catch (ex: Exception) {
+        emitter.onError(ex)
+    }
+}
+
+fun <T : Any> singleBy(action: SingleEmitter<T>.() -> Unit): Single<T> = Single.create { emitter ->
+    try {
+        action.invoke(emitter)
     } catch (ex: Exception) {
         emitter.onError(ex)
     }
@@ -34,8 +43,8 @@ fun <T> Single<T>.smartSubscribe(
         onError: ((Throwable) -> Unit)? = null,
         onFinally: (() -> Unit)? = null
 ): Disposable = this.subscribe(
-        { t ->
-            onSuccess?.invoke(t)
+        { data ->
+            onSuccess?.invoke(data)
             onFinally?.invoke()
         },
         { error ->
@@ -52,8 +61,8 @@ fun <T> Observable<T>.smartSubscribe(
         onComplete: (() -> Unit)? = null,
         onFinally: (() -> Unit)? = null
 ): Disposable = this.subscribe(
-        { t ->
-            onSuccess?.invoke(t)
+        { data ->
+            onSuccess?.invoke(data)
             onFinally?.invoke()
         },
         { error ->
