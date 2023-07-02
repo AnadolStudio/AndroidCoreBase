@@ -1,5 +1,6 @@
 package com.anadolstudio.core.viewmodel
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
@@ -51,4 +52,18 @@ inline fun <reified L : SingleLiveEvent<Unit>> Fragment.observe(
         noinline block: () -> Unit
 ) {
     singleLiveEvent.observe(this.viewLifecycleOwner, Observer { block.invoke() })
+}
+
+inline fun <reified T : Any, reified L : LiveData<T>> AppCompatActivity.observe(
+        liveData: L,
+        noinline block: (T) -> Unit
+) {
+    liveData.observe(this, Observer<T> { it?.let { block.invoke(it) } })
+}
+
+inline fun <reified L : SingleLiveEvent<Unit>> AppCompatActivity.observe(
+        singleLiveEvent: L,
+        noinline block: () -> Unit
+) {
+    singleLiveEvent.observe(this, Observer { block.invoke() })
 }

@@ -1,4 +1,4 @@
-package com.anadolstudio.core.dialogs
+package com.anadolstudio.core.dialogs.alert
 
 import android.content.Context
 import androidx.annotation.ColorRes

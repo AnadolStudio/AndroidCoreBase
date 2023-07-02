@@ -7,4 +7,6 @@ sealed class BaseViewState<Data> {
     class Content<Data>(val content: Data) : BaseViewState<Data>()
 
     class Stub<Data> : BaseViewState<Data>()
+
+    class Error<Data>(val error: Throwable) : BaseViewState<Data>()
 }

@@ -1,8 +1,9 @@
-package com.anadolstudio.core.dialogs
+package com.anadolstudio.core.dialogs.alert
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
 
+@Deprecated("Need refactor")
 object BaseDialogUtil {
 
     fun buildAlertDialog(
