@@ -9,30 +9,16 @@ import com.anadolstudio.core.livedata.toImmutable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseViewModel<Data> : ViewModel() {
-
-    protected val _singleEvent = SingleLiveEvent<SingleEvent>()
-    val event = _singleEvent.toImmutable()
+abstract class CoreContentViewModel<Data> : CoreActionViewModel() {
 
     protected val _state = MutableLiveData<BaseViewState<Data>>()
     val state = _state.toImmutable()
 
-    private val compositeDisposable by lazy { CompositeDisposable() }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
-    }
-
-    protected fun getContentOrNull(): Data? = (_state.value as? BaseViewState.Content<Data>)?.content
+    protected val content: Data? get() = (_state.value as? BaseViewState.Content<Data>)?.content
 
     protected fun updateContent(action: Data.() -> Data) {
-        val content = getContentOrNull() ?: return
+        val content = content ?: return // TODO проверить, что content обновляется
         _state.onNextContent(action.invoke(content))
     }
 
-    protected fun Disposable.disposeOnViewModelDestroy(): Disposable {
-        compositeDisposable.add(this)
-        return this
-    }
 }

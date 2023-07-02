@@ -1,4 +1,4 @@
-package com.anadolstudio.core.dialogs
+package com.anadolstudio.core.dialogs.bottom_sheet
 
 import android.app.Dialog
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.anadolstudio.core.R
@@ -16,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseBottomDialogFragment(private val layoutId: Int) : BottomSheetDialogFragment() {
+abstract class CoreBottomSheetDialog(@LayoutRes private val layoutId: Int) : BottomSheetDialogFragment() {
 
     abstract fun getDialogTag(): String
 
@@ -24,6 +25,10 @@ abstract class BaseBottomDialogFragment(private val layoutId: Int) : BottomSheet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStyle()
+    }
+
+    protected open fun setStyle() {
         if (isRounded) setStyle(DialogFragment.STYLE_NORMAL, R.style.RoundCornerBottomSheetTheme)
     }
 
@@ -37,20 +42,20 @@ abstract class BaseBottomDialogFragment(private val layoutId: Int) : BottomSheet
             val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             setDialogOptions(bottomSheet)
         }
+
         return bottomSheetDialog
     }
 
     fun show(fragmentManager: FragmentManager) {
-        val ft = fragmentManager.beginTransaction()
-        val prev = fragmentManager.findFragmentByTag(getDialogTag())
-        if (prev != null) {
-            ft.remove(prev)
-        }
-        ft.addToBackStack(null)
-        this.show(ft, getDialogTag())
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        // Remove duplicate
+        fragmentManager.findFragmentByTag(getDialogTag())?.let(fragmentTransaction::remove)
+
+        this.show(fragmentTransaction, getDialogTag())
     }
 
-    protected fun setDialogOptions(
+    protected open fun setDialogOptions(
             bottomSheet: View?,
             viewOptionsInstaller: ((View) -> Unit)? = null
     ) {
@@ -69,6 +74,7 @@ abstract class BaseBottomDialogFragment(private val layoutId: Int) : BottomSheet
             @ColorRes textColor: Int,
             textAppearance: Int
     ) {
+        // TODO формализовать
         Snackbar.make(requireDialog().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).apply {
             behavior = NoSwipeBehavior()
             decorate(backgroundColor, textColor, textAppearance)
