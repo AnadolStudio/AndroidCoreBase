@@ -1,30 +1,23 @@
 package com.anadolstudio.core.presentation.fragment
 
-import android.os.Bundle
-import android.view.View
 import androidx.annotation.LayoutRes
+import com.anadolstudio.core.presentation.ContentableState
 import com.anadolstudio.core.presentation.Contentable
+import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreContentViewModel
 import com.anadolstudio.core.viewmodel.observe
 
-abstract class CoreContentBaseFragment<ViewState : Any, ViewModel : CoreContentViewModel<ViewState>>(
+abstract class CoreContentBaseFragment<
+        ViewState : ContentableState,
+        NavigateData : Any,
+        ViewModel : CoreContentViewModel<ViewState, NavigateData>,
+        Controller : BaseController>(
         @LayoutRes layoutId: Int
-) : CoreActionBaseFragment<ViewModel>(layoutId), Contentable<ViewState> {
+) : CoreActionBaseFragment<Controller, NavigateData, ViewModel>(layoutId), Contentable<ViewState, Controller> {
 
-    override fun setupViewModel() {
-        super.setupViewModel()
-        observe(viewModel.viewState, this::render)
+    override fun setupViewModel(viewModel: ViewModel) {
+        super.setupViewModel(viewModel)
+        observe(viewModel.stateLiveData) { state -> render(state, controller) }
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupViewModel()
-    }
-
-    override fun showLoading() = Unit
-
-    override fun showEmpty() = Unit
-
-    override fun showError() = Unit
 
 }

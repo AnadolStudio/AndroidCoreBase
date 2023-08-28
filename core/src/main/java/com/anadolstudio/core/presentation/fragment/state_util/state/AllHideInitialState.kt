@@ -1,4 +1,4 @@
-package com.anadolstudio.core.presentation.fragment.state_util
+package com.anadolstudio.core.presentation.fragment.state_util.state
 
 import com.anadolstudio.core.common_extention.makeGone
 

@@ -16,23 +16,28 @@ import com.anadolstudio.core.presentation.event.SingleErrorSnack
 import com.anadolstudio.core.presentation.event.SingleErrorToast
 import com.anadolstudio.core.presentation.event.SingleMessageSnack
 import com.anadolstudio.core.presentation.event.SingleMessageToast
+import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreActionViewModel
 import com.anadolstudio.core.viewmodel.observe
 
-abstract class CoreActionActivity<ViewModel : CoreActionViewModel> : AppCompatActivity(),
-        UiEntity, Eventable, Navigatable {
+abstract class CoreActionActivity<
+        Controller : BaseController,
+        NavigateData : Any,
+        ViewModel : CoreActionViewModel<NavigateData>,
+        >
+    : AppCompatActivity(), UiEntity, Eventable, Navigatable<NavigateData> {
 
-    protected lateinit var viewModel: ViewModel
+    protected val viewModel: ViewModel by lazy { createViewModel() }
+    protected val controller: Controller get() = viewModel as Controller
     protected open val eventableDelegate: Eventable get() = Eventable.Delegate(uiEntity = this)
-    protected open val navigatableDelegate: Navigatable get() = Navigatable.Delegate()
+    abstract val navigatableDelegate: Navigatable<NavigateData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupViewModel()
+        setupViewModel(viewModel)
     }
 
-    protected open fun setupViewModel() {
-        viewModel = createViewModel()
+    protected open fun setupViewModel(viewModel: ViewModel) {
         observe(viewModel.event) { singleEvent -> handleEvent(singleEvent) }
         observe(viewModel.navigation) { navigationEvent -> handleNavigationEvent(navigationEvent) }
     }
@@ -64,6 +69,6 @@ abstract class CoreActionActivity<ViewModel : CoreActionViewModel> : AppCompatAc
     /* Eventable Implementation end region*/
 
     /* Navigatable Implementation region*/
-    override fun handleNavigationEvent(event: NavigationEvent) = navigatableDelegate.handleNavigationEvent(event)
+    override fun handleNavigationEvent(event: NavigationEvent<NavigateData>) = navigatableDelegate.handleNavigationEvent(event)
     /* Navigatable Implementation end region*/
 }

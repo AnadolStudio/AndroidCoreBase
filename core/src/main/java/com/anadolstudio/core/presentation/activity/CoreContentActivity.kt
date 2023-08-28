@@ -1,20 +1,21 @@
 package com.anadolstudio.core.presentation.activity
 
+import com.anadolstudio.core.presentation.ContentableState
 import com.anadolstudio.core.presentation.Contentable
+import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreContentViewModel
 import com.anadolstudio.core.viewmodel.observe
 
-abstract class CoreContentActivity<ViewState : Any, ViewModel : CoreContentViewModel<ViewState>>
-    : CoreActionActivity<ViewModel>(), Contentable<ViewState> {
+abstract class CoreContentActivity<
+        ViewState : ContentableState,
+        NavigateData : Any,
+        ViewModel : CoreContentViewModel<ViewState, NavigateData>,
+        Controller : BaseController>
+    : CoreActionActivity<Controller, NavigateData, ViewModel>(), Contentable<ViewState, Controller> {
 
-    override fun setupViewModel() {
-        super.setupViewModel()
-        observe(viewModel.viewState, this::render)
+
+    override fun setupViewModel(viewModel: ViewModel) {
+        observe(viewModel.stateLiveData) { state -> render(state, controller) }
     }
 
-    override fun showLoading() = Unit
-
-    override fun showEmpty() = Unit
-
-    override fun showError() = Unit
 }

@@ -2,14 +2,8 @@ package com.anadolstudio.core.presentation
 
 import com.anadolstudio.core.navigation.NavigationEvent
 
-interface Navigatable {
+interface Navigatable<NavigateData : Any> {
 
-    fun handleNavigationEvent(event: NavigationEvent)
+    fun handleNavigationEvent(event: NavigationEvent<NavigateData>)
 
-    class Delegate() : Navigatable {
-
-        override fun handleNavigationEvent(event: NavigationEvent) {
-            TODO("Not yet implemented")
-        }
-    }
 }

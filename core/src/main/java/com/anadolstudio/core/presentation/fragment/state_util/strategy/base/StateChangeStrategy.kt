@@ -1,6 +1,6 @@
 package com.anadolstudio.core.presentation.fragment.state_util.strategy.base
 
-import com.anadolstudio.core.presentation.fragment.state_util.State
+import com.anadolstudio.core.presentation.fragment.state_util.state.State
 
 interface StateChangeStrategy<T : Enum<T>> {
 
