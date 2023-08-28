@@ -8,6 +8,7 @@
     <declare-styleable name="BaseToolbar">
         <attr name="back_icon" format="reference" />
         <attr name="title" format="string" />
+        <attr name="tint" format="color|reference" />
         <attr name="textAppearance" format="reference" />
     </declare-styleable>
 

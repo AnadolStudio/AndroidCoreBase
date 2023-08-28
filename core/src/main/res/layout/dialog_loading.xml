@@ -10,7 +10,7 @@
 
     <ProgressBar
         android:layout_width="50dp"
-        android:layout_height="50dp"></ProgressBar>
+        android:layout_height="50dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -19,6 +19,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/loading"
-        android:textSize="@dimen/text_header" />
+        android:textSize="24dp" />
 
 </LinearLayout>
