@@ -129,7 +129,7 @@ object AnimateUtil {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    fun View.scaleAnimationOnClick(scale: Float = REDUCE_SCALE_CLICK, action: () -> Unit) = setOnTouchListener { _, event ->
+    fun View.scaleAnimationOnClick(action: () -> Unit, scale: Float = REDUCE_SCALE_CLICK) = setOnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> scaleAnimation(scale)
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> scaleAnimation(SCALE_DEFAULT, getActionOrNull(event, action))
