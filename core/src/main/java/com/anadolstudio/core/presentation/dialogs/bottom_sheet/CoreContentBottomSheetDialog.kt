@@ -1,23 +1,23 @@
 package com.anadolstudio.core.presentation.dialogs.bottom_sheet
 
 import androidx.annotation.LayoutRes
+import com.anadolstudio.core.presentation.ContentableState
 import com.anadolstudio.core.presentation.Contentable
+import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreContentViewModel
 import com.anadolstudio.core.viewmodel.observe
 
-abstract class CoreContentBottomSheetDialog<ViewState : Any, ViewModel : CoreContentViewModel<ViewState>>(
+abstract class CoreContentBottomSheetDialog<
+        ViewState : ContentableState,
+        NavigateData : Any,
+        ViewModel : CoreContentViewModel<ViewState, NavigateData>,
+        Controller : BaseController>(
         @LayoutRes layoutId: Int
-) : CoreActionBottomSheetDialog<ViewModel>(layoutId), Contentable<ViewState> {
+) : CoreActionBottomSheetDialog<Controller, NavigateData,ViewModel>(layoutId), Contentable<ViewState, Controller> {
 
-    override fun setupViewModel() {
-        super.setupViewModel()
-        observe(viewModel.viewState, this::render)
+    override fun setupViewModel(viewModel: ViewModel) {
+        super.setupViewModel(viewModel)
+        observe(viewModel.stateLiveData) { state -> render(state, controller) }
     }
-
-    override fun showLoading() = Unit
-
-    override fun showEmpty() = Unit
-
-    override fun showError() = Unit
 
 }

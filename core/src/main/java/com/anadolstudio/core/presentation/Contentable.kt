@@ -1,28 +1,28 @@
 package com.anadolstudio.core.presentation
 
-import com.anadolstudio.core.viewmodel.Lce
-import com.anadolstudio.core.viewmodel.Lce.Content.Data
-import com.anadolstudio.core.viewmodel.Lce.Content.Empty
+import com.anadolstudio.core.presentation.fragment.state_util.ViewStateDelegate
+import com.anadolstudio.core.viewmodel.BaseController
 
-interface Contentable<ViewState> {
+interface Contentable<ViewState : ContentableState, Controller : BaseController> {
 
-    fun render(state: Lce<ViewState>) = when (state) {
-        is Lce.Content -> showContent(state)
-        is Lce.Loading -> showLoading()
-        is Lce.Error -> showError()
+    val viewStateDelegate: ViewStateDelegate
+
+    fun render(state: ViewState, controller: Controller) = when {
+        state.isShimmers -> showShimmers()
+        state.isContent -> showContent(state)
+        state.isError -> state.getError?.let { showError(it, controller) }
+        else -> Unit
     }
 
-    fun showContent(content: Lce.Content<ViewState>) = when (content) {
-        is Data -> showData(content.data)
-        is Empty -> showEmpty()
+    fun showContent(content: ViewState) {
+        viewStateDelegate.showContent()
+
+        showFullScreenLoading(content.isFullScreenLoading)
+        if (content.isEmpty) showEmpty()
     }
 
-    fun showData(content: ViewState)
-
-    fun showLoading()
-
-    fun showEmpty()
-
-    fun showError()
-
+    fun showShimmers() = viewStateDelegate.showLoading()
+    fun showFullScreenLoading(isFullScreenLoading: Boolean) = Unit
+    fun showEmpty() = viewStateDelegate.showStub()
+    fun showError(error: Throwable, controller: Controller) = viewStateDelegate.showError()
 }

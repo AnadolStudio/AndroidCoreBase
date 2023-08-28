@@ -1,11 +1,8 @@
 package com.anadolstudio.core.navigation
 
-sealed class NavigationEvent
+sealed class NavigationEvent<Data>
 
-open class Back<Data>(data: Data) : NavigationEvent()
-
-open class BackTo<Data>(data: Data) : NavigationEvent()
-
-open class Replace<Data>(data: Data) : NavigationEvent()
-
-open class Add<Data>(data: Data) : NavigationEvent()
+open class Back<Data>(val data: Data? = null) : NavigationEvent<Data>()
+open class BackTo<Data>(val data: Data) : NavigationEvent<Data>()
+open class Replace<Data>(val data: Data) : NavigationEvent<Data>()
+open class Add<Data>(val data: Data) : NavigationEvent<Data>()

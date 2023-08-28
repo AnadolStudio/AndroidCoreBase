@@ -16,24 +16,28 @@ import com.anadolstudio.core.presentation.event.SingleErrorSnack
 import com.anadolstudio.core.presentation.event.SingleErrorToast
 import com.anadolstudio.core.presentation.event.SingleMessageSnack
 import com.anadolstudio.core.presentation.event.SingleMessageToast
+import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreActionViewModel
 import com.anadolstudio.core.viewmodel.observe
 
-abstract class CoreActionBottomSheetDialog<ViewModel : CoreActionViewModel>(
+abstract class CoreActionBottomSheetDialog<
+        Controller : BaseController,
+        NavigateData : Any,
+        ViewModel : CoreActionViewModel<NavigateData>>(
         @LayoutRes layoutId: Int
-) : CoreBottomSheetDialog(layoutId), Eventable, UiEntity, Navigatable {
+) : CoreBottomSheetDialog(layoutId), Eventable, UiEntity, Navigatable<NavigateData> {
 
-    protected lateinit var viewModel: ViewModel
+    private val viewModel: ViewModel by lazy { createViewModel() }
+    protected val controller: Controller get() = viewModel as Controller
     protected open val eventableDelegate: Eventable get() = Eventable.Delegate(uiEntity = this)
-    protected open val navigatableDelegate: Navigatable get() = Navigatable.Delegate()
+    abstract val navigatableDelegate: Navigatable<NavigateData>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViewModel()
+        setupViewModel(viewModel)
     }
 
-    protected open fun setupViewModel() {
-        viewModel = createViewModel()
+    protected open fun setupViewModel(viewModel: ViewModel) {
         observe(viewModel.event) { singleEvent -> handleEvent(singleEvent) }
         observe(viewModel.navigation) { navigationEvent -> handleNavigationEvent(navigationEvent) }
     }
@@ -67,6 +71,6 @@ abstract class CoreActionBottomSheetDialog<ViewModel : CoreActionViewModel>(
     /* Eventable Implementation end region*/
 
     /* Navigatable Implementation region*/
-    override fun handleNavigationEvent(event: NavigationEvent) = navigatableDelegate.handleNavigationEvent(event)
+    override fun handleNavigationEvent(event: NavigationEvent<NavigateData>) = navigatableDelegate.handleNavigationEvent(event)
     /* Navigatable Implementation end region*/
 }
