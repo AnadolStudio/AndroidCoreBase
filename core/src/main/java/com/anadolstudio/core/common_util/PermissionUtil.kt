@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 
+@Deprecated("Довести до ума")
 interface PermissionUtil {
 
     fun checkPermission(activity: AppCompatActivity): Boolean
@@ -31,9 +32,7 @@ interface PermissionUtil {
                 .checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
 
         override fun shouldShowRequestPermissionRationale(activity: AppCompatActivity): Boolean =
-                ActivityCompat.shouldShowRequestPermissionRationale(
-                        activity, permission
-                )
+                ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
 
     }
 
