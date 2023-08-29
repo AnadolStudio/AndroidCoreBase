@@ -1,4 +1,4 @@
-package com.anadolstudio.core.livedata
+package com.anadolstudio.core.viewmodel.livedata
 
 sealed class SingleEvent
 

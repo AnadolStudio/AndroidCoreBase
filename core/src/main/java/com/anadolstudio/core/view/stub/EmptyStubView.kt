@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import com.anadolstudio.core.R
-import com.anadolstudio.core.common_util.dpToPx
+import com.anadolstudio.core.util.common.dpToPx
 import com.anadolstudio.core.databinding.ViewEmpyStubBinding
 
 class EmptyStubView @JvmOverloads constructor(

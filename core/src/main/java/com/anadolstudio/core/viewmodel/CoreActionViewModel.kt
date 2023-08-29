@@ -1,10 +1,10 @@
 package com.anadolstudio.core.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.anadolstudio.core.livedata.SingleEvent
-import com.anadolstudio.core.livedata.SingleLiveEvent
-import com.anadolstudio.core.livedata.onNext
-import com.anadolstudio.core.livedata.toImmutable
+import com.anadolstudio.core.viewmodel.livedata.SingleEvent
+import com.anadolstudio.core.viewmodel.livedata.SingleLiveEvent
+import com.anadolstudio.core.viewmodel.livedata.onNext
+import com.anadolstudio.core.viewmodel.livedata.toImmutable
 import com.anadolstudio.core.navigation.NavigationEvent
 import com.anadolstudio.core.presentation.event.SingleErrorSnack
 import com.anadolstudio.core.presentation.event.SingleMessageToast

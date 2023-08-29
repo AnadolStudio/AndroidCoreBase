@@ -1,4 +1,4 @@
-package com.anadolstudio.core.share_util
+package com.anadolstudio.core.util.share
 
 enum class AppPackages(val appPackage: String) {
     VK("com.vkontakte.android"),

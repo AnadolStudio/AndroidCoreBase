@@ -1,4 +1,4 @@
-package com.anadolstudio.core.common_util
+package com.anadolstudio.core.util.data_time
 
 import java.text.SimpleDateFormat
 import java.util.Date

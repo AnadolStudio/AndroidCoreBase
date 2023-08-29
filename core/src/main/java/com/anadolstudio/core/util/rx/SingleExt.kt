@@ -1,4 +1,4 @@
-package com.anadolstudio.core.rx_util
+package com.anadolstudio.core.util.rx
 
 import com.anadolstudio.core.viewmodel.LceState
 import io.reactivex.Single

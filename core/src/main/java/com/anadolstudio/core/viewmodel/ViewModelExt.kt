@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.anadolstudio.core.livedata.SingleLiveEvent
+import com.anadolstudio.core.viewmodel.livedata.SingleLiveEvent
 
 inline fun <reified T : ViewModel> FragmentActivity.obtainViewModel(
         viewModelFactory: ViewModelProvider.Factory

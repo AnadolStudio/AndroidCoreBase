@@ -1,8 +1,8 @@
 package com.anadolstudio.core.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.anadolstudio.core.livedata.onNext
-import com.anadolstudio.core.livedata.toImmutable
+import com.anadolstudio.core.viewmodel.livedata.onNext
+import com.anadolstudio.core.viewmodel.livedata.toImmutable
 
 abstract class CoreContentViewModel<State : Any, NavigateData : Any>(
         private val initState: State

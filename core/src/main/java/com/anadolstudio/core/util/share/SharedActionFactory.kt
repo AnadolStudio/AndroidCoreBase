@@ -1,4 +1,4 @@
-package com.anadolstudio.core.share_util
+package com.anadolstudio.core.util.share
 
 import com.anadolstudio.core.R
 

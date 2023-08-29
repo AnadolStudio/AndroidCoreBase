@@ -1,3 +1,3 @@
-package com.anadolstudio.core.common_extention
+package com.anadolstudio.core.util.common_extention
 
 fun <T> Array<T>.nullIfEmpty(): Array<T>? = ifEmpty { null }

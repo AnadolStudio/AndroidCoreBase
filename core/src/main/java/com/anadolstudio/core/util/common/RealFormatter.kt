@@ -1,4 +1,4 @@
-package com.anadolstudio.core.common_util
+package com.anadolstudio.core.util.common
 
 import com.google.android.material.slider.LabelFormatter
 import kotlin.math.roundToInt
