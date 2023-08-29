@@ -1,14 +1,13 @@
 package com.anadolstudio.core.presentation.dialogs.bottom_sheet
 
 import androidx.annotation.LayoutRes
-import com.anadolstudio.core.presentation.ContentableState
 import com.anadolstudio.core.presentation.Contentable
 import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreContentViewModel
 import com.anadolstudio.core.viewmodel.observe
 
 abstract class CoreContentBottomSheetDialog<
-        ViewState : ContentableState,
+        ViewState : Any,
         NavigateData : Any,
         ViewModel : CoreContentViewModel<ViewState, NavigateData>,
         Controller : BaseController>(

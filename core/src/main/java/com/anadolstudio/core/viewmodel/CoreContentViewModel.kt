@@ -3,9 +3,8 @@ package com.anadolstudio.core.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.anadolstudio.core.livedata.onNext
 import com.anadolstudio.core.livedata.toImmutable
-import com.anadolstudio.core.presentation.ContentableState
 
-abstract class CoreContentViewModel<State : ContentableState, NavigateData : Any>(
+abstract class CoreContentViewModel<State : Any, NavigateData : Any>(
         private val initState: State
 ) : CoreActionViewModel<NavigateData>() {
 

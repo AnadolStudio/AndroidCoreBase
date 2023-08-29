@@ -1,13 +1,12 @@
 package com.anadolstudio.core.presentation.activity
 
-import com.anadolstudio.core.presentation.ContentableState
 import com.anadolstudio.core.presentation.Contentable
 import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreContentViewModel
 import com.anadolstudio.core.viewmodel.observe
 
 abstract class CoreContentActivity<
-        ViewState : ContentableState,
+        ViewState : Any,
         NavigateData : Any,
         ViewModel : CoreContentViewModel<ViewState, NavigateData>,
         Controller : BaseController>

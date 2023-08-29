@@ -1,15 +1,6 @@
 package com.anadolstudio.core.util.paginator
 
-import com.anadolstudio.core.presentation.ContentableState
-
-sealed class PagingDataState<E> : ContentableState {
-
-    override val isShimmers: Boolean get() = this is Loading
-    override val isFullScreenLoading: Boolean get() = this is Content.Refresh
-    override val isEmpty: Boolean get() = this is Empty
-    override val isError: Boolean get() = this is Error
-    override val isContent: Boolean get() = this is Content
-    override val getError: Throwable? get() = if (this is Error) this.error else null
+sealed class PagingDataState<E> {
 
     class Loading<E> : PagingDataState<E>()
 
