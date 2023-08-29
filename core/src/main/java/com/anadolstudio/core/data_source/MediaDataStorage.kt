@@ -1,6 +1,12 @@
 package com.anadolstudio.core.data_source
 
-import android.content.ContentResolver.*
+import android.content.ContentResolver.QUERY_ARG_LIMIT
+import android.content.ContentResolver.QUERY_ARG_OFFSET
+import android.content.ContentResolver.QUERY_ARG_SORT_COLUMNS
+import android.content.ContentResolver.QUERY_ARG_SORT_DIRECTION
+import android.content.ContentResolver.QUERY_ARG_SQL_SELECTION
+import android.content.ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS
+import android.content.ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
@@ -16,8 +22,7 @@ class MediaDataStorage(private val context: Context) {
 
     private companion object {
         const val AND = " and "
-        const val FORMAT = 1
-        val legalFormat = listOf("jpg", "jpeg", "png", "webp")
+        val legalFormat = listOf("image/jpg", "image/jpeg", "image/png", "image/webp")
     }
 
     fun loadImages(
@@ -96,17 +101,24 @@ class MediaDataStorage(private val context: Context) {
             selectionArg: MutableList<String>,
             selectionBuilder: StringBuilder,
     ) {
+        val mimeTypeSelection = legalFormat.joinToString(
+                prefix = "${MediaStore.MediaColumns.MIME_TYPE} = ? ",
+                separator = " OR ${MediaStore.MediaColumns.MIME_TYPE} = ? ",
+                transform = { "" }
+        )
+
         if (folder != null) {
             selectionArg.add(folder)
             selectionBuilder.append("${MediaStore.Images.Media.BUCKET_DISPLAY_NAME} = ?")
         }
 
-        /*val mimeTypeSelection = legalFormat.joinToString(
-                prefix = "${MediaStore.MediaColumns.MIME_TYPE} == ",
-                separator = " OR ${MediaStore.MediaColumns.MIME_TYPE} == ",
-                transform = { it }
-        )
-        selectionBuilder.appendNext(mimeTypeSelection)*/
+        selectionArg.addAll(legalFormat)
+
+        if (folder != null) {
+            selectionBuilder.appendNext("($mimeTypeSelection)")
+        } else {
+            selectionBuilder.appendNext(mimeTypeSelection)
+        }
     }
 
     fun loadFolders(): Single<Set<String>> = singleFrom {
