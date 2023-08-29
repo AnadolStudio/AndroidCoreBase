@@ -20,6 +20,8 @@ fun Context.startAppSettingsActivity() {
 
 fun Context.hasPermission(permission: String): Boolean = checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 
-fun Context.hasPermission(permissions: Array<String>): Boolean = permissions.all(this::hasPermission)
+fun Context.hasAllPermissions(permissions: Array<String>): Boolean = permissions.all(this::hasPermission)
+
+fun Context.hasAnyPermissions(permissions: Array<String>): Boolean = permissions.any(this::hasPermission)
 
 fun Context.getCompatDrawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(this, id)

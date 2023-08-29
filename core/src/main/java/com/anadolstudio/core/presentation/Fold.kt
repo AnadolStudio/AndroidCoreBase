@@ -11,6 +11,7 @@ fun <E, R> PagingDataState<E>.fold(
         onLoading: () -> Unit = {},
         onError: (error: Throwable) -> Unit = {},
         onEmptyData: () -> Unit = {},
+        onContent: () -> Unit = {},
         onUpdateData: (data: List<R>) -> Unit = {},
         onNextPageLoading: () -> Unit = {},
         onNextPageError: (error: Throwable) -> Unit = {},
@@ -30,6 +31,10 @@ fun <E, R> PagingDataState<E>.fold(
             is PagingDataState.Content.UpdateData -> onUpdateData.invoke(data.map(transform))
             is PagingDataState.Content.AllData -> onAllData.invoke()
             is PagingDataState.Content.PageData -> onPageData.invoke(data.map(transform))
+        }
+
+        if (this is PagingDataState.Content) {
+            onContent.invoke()
         }
     }
 }
@@ -62,8 +67,11 @@ fun <Data> LceState<Data>.fold(
 fun <Data, C : Collection<Data>> C.fold(
         onContent: ((C) -> Unit),
         onEmpty: (() -> Unit) = { },
+        onEach: ((isContent: Boolean) -> Unit) = { },
 ) = when (isNotEmpty()) {
     true -> onContent.invoke(this)
     false -> onEmpty.invoke()
+}.also {
+    onEach.invoke(isNotEmpty())
 }
 
