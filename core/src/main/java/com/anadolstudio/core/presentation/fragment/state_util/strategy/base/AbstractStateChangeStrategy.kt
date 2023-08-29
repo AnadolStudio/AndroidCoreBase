@@ -2,7 +2,7 @@ package com.anadolstudio.core.presentation.fragment.state_util.strategy.base
 
 import android.view.View
 import android.view.animation.Animation
-import com.anadolstudio.core.common_extention.makeVisible
+import com.anadolstudio.core.util.common_extention.makeVisible
 import com.anadolstudio.core.presentation.fragment.state_util.state.State
 
 abstract class AbstractStateChangeStrategy<T : Enum<T>> : StateChangeStrategy<T> {

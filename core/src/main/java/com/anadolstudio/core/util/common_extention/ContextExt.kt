@@ -1,4 +1,4 @@
-package com.anadolstudio.core.common_extention
+package com.anadolstudio.core.util.common_extention
 
 import android.content.Context
 import android.content.Intent

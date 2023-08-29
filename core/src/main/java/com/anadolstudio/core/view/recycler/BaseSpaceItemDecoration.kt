@@ -1,9 +1,9 @@
-package com.anadolstudio.core.recycler
+package com.anadolstudio.core.view.recycler
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.anadolstudio.core.common_util.dpToPx
+import com.anadolstudio.core.util.common.dpToPx
 
 open class BaseSpaceItemDecoration(
         private val padding: Rect = Rect(MEDIUM_SPACE, MEDIUM_SPACE, MEDIUM_SPACE, MEDIUM_SPACE),

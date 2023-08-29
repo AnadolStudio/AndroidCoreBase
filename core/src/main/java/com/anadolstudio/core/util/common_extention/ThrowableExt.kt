@@ -1,4 +1,4 @@
-package com.anadolstudio.core.common_extention
+package com.anadolstudio.core.util.common_extention
 
 fun <T : Any> tryOrNull(action: () -> T): T? = try {
     action.invoke()

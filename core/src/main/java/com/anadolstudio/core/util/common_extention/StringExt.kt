@@ -1,4 +1,4 @@
-package com.anadolstudio.core.common_extention
+package com.anadolstudio.core.util.common_extention
 
 fun String.ifNotEmpty(action: () -> String): String = if (isNotEmpty()) plus(action.invoke()) else this
 

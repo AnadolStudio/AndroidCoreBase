@@ -4,10 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.anadolstudio.core.livedata.SingleCustomEvent
-import com.anadolstudio.core.livedata.SingleError
-import com.anadolstudio.core.livedata.SingleEvent
-import com.anadolstudio.core.livedata.SingleMessage
+import com.anadolstudio.core.viewmodel.livedata.SingleCustomEvent
+import com.anadolstudio.core.viewmodel.livedata.SingleError
+import com.anadolstudio.core.viewmodel.livedata.SingleEvent
+import com.anadolstudio.core.viewmodel.livedata.SingleMessage
 import com.anadolstudio.core.navigation.NavigationEvent
 import com.anadolstudio.core.presentation.Eventable
 import com.anadolstudio.core.presentation.Navigatable

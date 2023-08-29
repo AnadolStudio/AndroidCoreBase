@@ -1,4 +1,4 @@
-package com.anadolstudio.core.common_extention
+package com.anadolstudio.core.util.common_extention
 
 fun Boolean.onTrue(action: () -> Unit) = this.also { isTrue -> if (isTrue) action.invoke() }
 

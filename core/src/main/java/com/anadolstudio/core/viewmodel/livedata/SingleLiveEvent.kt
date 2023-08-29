@@ -1,4 +1,4 @@
-package com.anadolstudio.core.livedata
+package com.anadolstudio.core.viewmodel.livedata
 
 import android.util.Log
 import androidx.annotation.MainThread

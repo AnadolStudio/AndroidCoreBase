@@ -1,7 +1,7 @@
 package com.anadolstudio.core.presentation.event
 
-import com.anadolstudio.core.livedata.SingleError
-import com.anadolstudio.core.livedata.SingleMessage
+import com.anadolstudio.core.viewmodel.livedata.SingleError
+import com.anadolstudio.core.viewmodel.livedata.SingleMessage
 
 /**
  * SingleMessage

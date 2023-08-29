@@ -1,4 +1,4 @@
-package com.anadolstudio.core.common_extention
+package com.anadolstudio.core.util.common_extention
 
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
