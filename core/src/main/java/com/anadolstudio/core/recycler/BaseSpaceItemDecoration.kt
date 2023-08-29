@@ -28,17 +28,4 @@ open class BaseSpaceItemDecoration(
 
     class All(space: Int = MEDIUM_SPACE) : BaseSpaceItemDecoration(space)
 
-    class CornerItems(
-            private val columnCount: Int = 1,
-            private val space: Int = MEDIUM_SPACE
-    ) : BaseSpaceItemDecoration(space) {
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            val index = parent.getChildAdapterPosition(view)
-
-            when {
-                index % columnCount == 0 -> outRect.set(space, 0, 0, 0)
-                index % columnCount == columnCount - 1 -> outRect.set(0, 0, space, 0)
-            }
-        }
-    }
 }
