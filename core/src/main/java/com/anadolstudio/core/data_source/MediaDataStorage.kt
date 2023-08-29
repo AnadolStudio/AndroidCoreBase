@@ -67,7 +67,7 @@ class MediaDataStorage(private val context: Context) {
             offset: Int
     ): Cursor? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         context.contentResolver.query(
-                uri,
+                uri.buildUpon().encodedQuery("limit=$offset,$pageSize").build(),
                 projection,
                 Bundle().apply {
                     // Limit & Offset
