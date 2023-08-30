@@ -4,16 +4,12 @@ interface Renderable {
 
     val stateMap: MutableMap<String, Int>
 
-    fun <State>render(pair: Pair<String, State>, render: State.() -> Unit) {
-        val key = pair.first
-        val state = pair.second
-        val hashCode = state.hashCode()
+    fun <State : Any> State.render(key: String, render: State.() -> Unit) {
+        if (stateMap[key] == hashCode()) return
 
-        if (stateMap[key] == hashCode) return
+        stateMap[key] = hashCode()
 
-        stateMap[key] = hashCode
-
-        render.invoke(state)
+        render.invoke(this)
     }
 
 }
