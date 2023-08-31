@@ -9,6 +9,9 @@ import android.view.View.VISIBLE
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.view.animation.DecelerateInterpolator
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 
 object AnimateUtil {
     const val DURATION_SHORT: Long = 200
@@ -151,7 +154,8 @@ object AnimateUtil {
             .scaleX(scale)
             .scaleY(scale)
             .setDuration(DURATION_SHORT)
-            .withEndAction { action?.invoke() }
+            .withStartAction { action?.invoke() }
+            .setInterpolator(DecelerateInterpolator())
             .start()
 
     fun blinkAnimation(): Animation = AlphaAnimation(1f, 0f).apply {
