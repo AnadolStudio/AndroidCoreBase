@@ -1,9 +1,10 @@
-package com.anadolstudio.core.data_source
+package com.anadolstudio.core.data_source.media
 
 import android.content.ContentResolver.QUERY_ARG_LIMIT
 import android.content.ContentResolver.QUERY_ARG_OFFSET
 import android.content.ContentResolver.QUERY_ARG_SORT_COLUMNS
 import android.content.ContentResolver.QUERY_ARG_SORT_DIRECTION
+import android.content.ContentResolver.QUERY_ARG_SQL_GROUP_BY
 import android.content.ContentResolver.QUERY_ARG_SQL_SELECTION
 import android.content.ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS
 import android.content.ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
@@ -12,7 +13,9 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
+import android.provider.MediaStore.Images.ImageColumns
+import android.provider.MediaStore.Images.Media
+import android.provider.MediaStore.MediaColumns
 import com.anadolstudio.core.util.common_extention.nullIfEmpty
 import com.anadolstudio.core.util.rx.singleFrom
 import io.reactivex.Single
@@ -33,13 +36,14 @@ class MediaDataStorage(private val context: Context) {
 
         val images = mutableListOf<String>()
 
-        val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val uri: Uri = Media.EXTERNAL_CONTENT_URI
         val offset = pageSize * pageIndex
 
         val projection = arrayOf(
-                MediaStore.MediaColumns._ID,
-                MediaStore.MediaColumns.MIME_TYPE,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME
+                MediaColumns._ID,
+                MediaColumns.MIME_TYPE,
+                Media.BUCKET_DISPLAY_NAME,
+                MediaColumns.DATE_MODIFIED
         )
 
         val selectionArgs = mutableListOf<String>()
@@ -48,14 +52,12 @@ class MediaDataStorage(private val context: Context) {
         initSelection(folder, selectionArgs, selectionBuilder)
 
         val selection = if (selectionBuilder.isNotBlank()) selectionBuilder.toString() else null
-        val cursor = getCursor(uri, projection, selection, selectionArgs, pageSize, offset)
+        val cursor = getGalleryCursor(uri, projection, selection, selectionArgs, pageSize, offset)
 
         cursor?.use {
-            val columnDataIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
-            val columnDataIndex1 = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE) // TODO filter MIME_TYPE
+            val columnDataIndex = cursor.getColumnIndexOrThrow(MediaColumns._ID)
 
             while (cursor.moveToNext()) {
-                println(cursor.getString(columnDataIndex1))
                 images.add(Uri.withAppendedPath(uri, cursor.getString(columnDataIndex)).toString())
             }
         }
@@ -63,7 +65,7 @@ class MediaDataStorage(private val context: Context) {
         return@singleFrom images
     }
 
-    private fun getCursor(
+    private fun getGalleryCursor(
             uri: Uri,
             projection: Array<String>,
             selection: String?,
@@ -79,7 +81,7 @@ class MediaDataStorage(private val context: Context) {
                     putInt(QUERY_ARG_LIMIT, pageSize)
                     putInt(QUERY_ARG_OFFSET, offset)
                     // sort
-                    putStringArray(QUERY_ARG_SORT_COLUMNS, arrayOf(MediaStore.MediaColumns._ID))
+                    putStringArray(QUERY_ARG_SORT_COLUMNS, arrayOf(MediaColumns.DATE_MODIFIED))
                     putInt(QUERY_ARG_SORT_DIRECTION, QUERY_SORT_DIRECTION_DESCENDING)
                     // Selection
                     putString(QUERY_ARG_SQL_SELECTION, selection)
@@ -92,7 +94,7 @@ class MediaDataStorage(private val context: Context) {
                 projection,
                 selection,
                 selectionArgs.toTypedArray().nullIfEmpty(),
-                "${MediaStore.MediaColumns._ID} DESC LIMIT $pageSize OFFSET $offset"
+                "${MediaColumns.DATE_MODIFIED} DESC LIMIT $pageSize OFFSET $offset"
         )
     }
 
@@ -102,14 +104,14 @@ class MediaDataStorage(private val context: Context) {
             selectionBuilder: StringBuilder,
     ) {
         val mimeTypeSelection = legalFormat.joinToString(
-                prefix = "${MediaStore.MediaColumns.MIME_TYPE} = ? ",
-                separator = " OR ${MediaStore.MediaColumns.MIME_TYPE} = ? ",
+                prefix = "${MediaColumns.MIME_TYPE} = ? ",
+                separator = " OR ${MediaColumns.MIME_TYPE} = ? ",
                 transform = { "" }
         )
 
         if (folder != null) {
             selectionArg.add(folder)
-            selectionBuilder.append("${MediaStore.Images.Media.BUCKET_DISPLAY_NAME} = ?")
+            selectionBuilder.append("${Media.BUCKET_DISPLAY_NAME} = ?")
         }
 
         selectionArg.addAll(legalFormat)
@@ -121,25 +123,55 @@ class MediaDataStorage(private val context: Context) {
         }
     }
 
-    fun loadFolders(): Single<Set<String>> = singleFrom {
-        val folders = mutableSetOf<String>()
+    fun loadFolders(): Single<Set<Folder>> = singleFrom {
+        val folders = mutableSetOf<Folder>()
 
-        val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+        val uri: Uri = Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(
+                ImageColumns.BUCKET_ID,
+                MediaColumns.DATE_MODIFIED,
+                Media.BUCKET_DISPLAY_NAME,
+                Media.DATA,
+        )
 
-        context.contentResolver.query(
-                uri,
-                projection,
-                null,
-                null,
-                "${MediaStore.MediaColumns._ID} DESC"
-        )?.use { cursor ->
-            val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+        val cursor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            context.contentResolver.query(
+                    uri,
+                    projection,
+                    Bundle().apply {
+                        putStringArray(QUERY_ARG_SORT_COLUMNS, arrayOf(MediaColumns.DATE_MODIFIED))
+                        putInt(QUERY_ARG_SORT_DIRECTION, QUERY_SORT_DIRECTION_DESCENDING)
+                        putString(QUERY_ARG_SQL_GROUP_BY, MediaColumns.DATE_MODIFIED)
+                    }, null
+            )
+        } else {
+            context.contentResolver.query(
+                    uri,
+                    projection,
+                    "1) GROUP BY (${MediaColumns.DATE_MODIFIED}",
+                    null,
+                    "${MediaColumns.DATE_MODIFIED} DESC"
+            )
+        }
+
+        cursor?.use {
+            val folderNameIndex = cursor.getColumnIndexOrThrow(Media.BUCKET_DISPLAY_NAME)
+            val thumbIndex = cursor.getColumnIndexOrThrow(Media.DATA)
+            val setFolders = mutableSetOf<String>()
 
             while (cursor.moveToNext()) {
-                Uri.withAppendedPath(uri, cursor.getString(columnIndexData)).path?.also { path ->
-                    folders.add(File(path).name)
-                }
+                val path = Uri.withAppendedPath(uri, cursor.getString(folderNameIndex)).path
+                val name = File(requireNotNull(path)).name
+
+                if (setFolders.contains(name)) continue
+                setFolders.add(name)
+
+                folders.add(
+                        Folder(
+                                name = name,
+                                thumbPath = cursor.getString(thumbIndex)
+                        )
+                )
             }
         }
 
