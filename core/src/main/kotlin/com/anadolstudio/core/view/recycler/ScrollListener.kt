@@ -12,23 +12,29 @@ class ScrollListener(
 
     private companion object {
         val DELTA = 128.dpToPx()
+        const val TOP = -1
     }
 
-    var currentDelta: Int = 0
+    private var currentDelta: Int = 0
+
+    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+            currentDelta = 0
+        }
+    }
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        super.onScrolled(recyclerView, dx, dy)
-
         currentDelta += dy
-
-        if (abs(currentDelta) <= delta) return
+        val currentDeltaIsValid = abs(currentDelta) >= delta
 
         when {
-            currentDelta < 0 -> onScrollToTop?.invoke()
-            currentDelta > 0 -> onScrollToBottom?.invoke()
-            recyclerView.scrollY == 0 -> onScrollToTop?.invoke()
+            currentDeltaIsValid && currentDelta < 0 -> onScrollToTop?.invoke()
+            currentDeltaIsValid && currentDelta > 0 -> onScrollToBottom?.invoke()
+            !recyclerView.canScrollVertically(TOP) -> onScrollToTop?.invoke()
         }
 
-        currentDelta = 0
+        if (currentDeltaIsValid) {
+            currentDelta = 0
+        }
     }
 }
