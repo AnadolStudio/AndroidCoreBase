@@ -3,15 +3,20 @@ package com.anadolstudio.core.view.animation
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.VISIBLE
+import android.view.View.*
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.core.view.isVisible
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
+import com.anadolstudio.core.util.common_extention.makeGone
+import com.anadolstudio.core.util.common_extention.makeVisible
 
 object AnimateUtil {
     const val DURATION_SHORT: Long = 200
@@ -25,7 +30,7 @@ object AnimateUtil {
     private const val SCALE_DEFAULT = 1.0F
 
     fun showAnimX(view: View, start: Float, end: Float) {
-        view.visibility = View.INVISIBLE
+        view.visibility = INVISIBLE
         view.translationX = start
         view.animate()
                 .translationX(end)
@@ -42,7 +47,7 @@ object AnimateUtil {
     }
 
     fun showAnimX(view: View, start: Float, end: Float, listener: AnimatorListenerAdapter) {
-        view.visibility = View.INVISIBLE
+        view.visibility = INVISIBLE
         view.translationX = start
         view.animate()
                 .translationX(end)
@@ -53,7 +58,7 @@ object AnimateUtil {
     fun <T : View> fadOutAnimation(
             view: T,
             duration: Long = DURATION_SHORT,
-            visibility: Int = View.INVISIBLE,
+            visibility: Int = INVISIBLE,
             completion: ((T) -> Unit)? = null
     ) {
         with(view) {
@@ -73,7 +78,7 @@ object AnimateUtil {
     ) {
         with(view) {
             alpha = 0f
-            visibility = View.VISIBLE
+            visibility = VISIBLE
             animate()
                     .alpha(1f)
                     .setDuration(duration)
@@ -81,18 +86,59 @@ object AnimateUtil {
         }
     }
 
-    //TODO UP, DOWN, LEFT, RIGHT
-    fun showAnimY(view: View, start: Float, end: Float) {
-        view.visibility = View.INVISIBLE
-        view.translationY = start
-        view.animate()
-                .translationY(end)
-                .setDuration(DURATION_NORMAL)
-                .setListener(getSimpleStartListener(view))
+    fun View.showTranslationTopOut(duration: Long = DURATION_NORMAL) {
+        if (!isVisible) return
+
+        visibility = GONE
+        translationY = 0F
+        animate()
+                .translationY(-height.toFloat())
+                .setDuration(duration)
+                .setInterpolator(DecelerateInterpolator())
+                .setListener(getSimpleEndListener(this))
     }
 
+    fun View.showTranslationTopIn(duration: Long = DURATION_NORMAL) {
+        if (isVisible) return
+
+        translationY = -height.toFloat()
+        animate()
+                .translationY(0f)
+                .setDuration(duration)
+                .setInterpolator(DecelerateInterpolator())
+                .setListener(getSimpleStartListener(this))
+    }
+
+    fun ViewGroup.animSlideOut(@Slide.GravityFlag slideEdge: Int, duration: Long = DURATION_NORMAL) {
+        if (!isVisible) return
+
+        val slide = Slide(slideEdge)
+                .setDuration(duration)
+                .setInterpolator(DecelerateInterpolator())
+        TransitionManager.beginDelayedTransition(this, slide)
+        makeGone()
+    }
+
+    fun ViewGroup.animSlideIn(@Slide.GravityFlag slideEdge: Int, duration: Long = DURATION_NORMAL) {
+        if (isVisible) return
+
+        val slide = Slide(slideEdge)
+                .setDuration(duration)
+                .setInterpolator(DecelerateInterpolator())
+        TransitionManager.beginDelayedTransition(this, slide)
+        makeVisible()
+    }
+
+    fun ViewGroup.animSlideTopOut(duration: Long = DURATION_NORMAL) = animSlideOut(Gravity.TOP, duration)
+
+    fun ViewGroup.animSlideTopIn(duration: Long = DURATION_NORMAL) = animSlideIn(Gravity.TOP, duration)
+
+    fun ViewGroup.animSlideBottomOut(duration: Long = DURATION_NORMAL) = animSlideOut(Gravity.BOTTOM, duration)
+
+    fun ViewGroup.animSlideBottomIn(duration: Long = DURATION_NORMAL) = animSlideIn(Gravity.BOTTOM, duration)
+
     fun showAnimY(view: View, start: Float, end: Float, listener: AnimatorListenerAdapter) {
-        view.visibility = View.INVISIBLE
+        view.visibility = INVISIBLE
         view.translationY = start
         view.animate()
                 .translationY(end)
@@ -110,7 +156,7 @@ object AnimateUtil {
 
     fun getSimpleStartListener(view: View) = getSimpleListener(view, VISIBLE)
 
-    fun getSimpleEndListener(view: View) = getSimpleListener(view, View.GONE)
+    fun getSimpleEndListener(view: View) = getSimpleListener(view, GONE)
 
     fun getSimpleListener(view: View, visible: Int) = object : AnimatorListenerAdapter() {
 
@@ -132,10 +178,14 @@ object AnimateUtil {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    fun View.scaleAnimationOnClick(action: () -> Unit, scale: Float = REDUCE_SCALE_CLICK) = setOnTouchListener { _, event ->
+    fun View.scaleAnimationOnClick(
+            scale: Float = REDUCE_SCALE_CLICK,
+            scaleDefault: Float = SCALE_DEFAULT,
+            action: () -> Unit
+    ) = setOnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> scaleAnimation(scale)
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> scaleAnimation(SCALE_DEFAULT, getActionOrNull(event, action))
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> scaleAnimation(scaleDefault, getActionOrNull(event, action))
         }
 
         return@setOnTouchListener true
