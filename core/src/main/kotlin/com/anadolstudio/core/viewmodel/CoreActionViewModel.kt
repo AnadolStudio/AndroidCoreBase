@@ -1,13 +1,13 @@
 package com.anadolstudio.core.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.anadolstudio.core.navigation.NavigationEvent
+import com.anadolstudio.core.presentation.event.SingleErrorSnack
+import com.anadolstudio.core.presentation.event.SingleMessageToast
 import com.anadolstudio.core.viewmodel.livedata.SingleEvent
 import com.anadolstudio.core.viewmodel.livedata.SingleLiveEvent
 import com.anadolstudio.core.viewmodel.livedata.onNext
 import com.anadolstudio.core.viewmodel.livedata.toImmutable
-import com.anadolstudio.core.navigation.NavigationEvent
-import com.anadolstudio.core.presentation.event.SingleErrorSnack
-import com.anadolstudio.core.presentation.event.SingleMessageToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -21,9 +21,11 @@ abstract class CoreActionViewModel<NavigateData> : ViewModel() {
 
     private val compositeDisposable by lazy { CompositeDisposable() }
 
-    protected fun showError(error: Throwable) = _singleEvent.onNext(SingleErrorSnack.Long(error))
+    protected fun showError(error: Throwable) = showEvent(SingleErrorSnack.Long(error))
 
-    protected fun showMessage(message: String) = _singleEvent.onNext(SingleMessageToast.Long(message))
+    protected fun showMessage(message: String) = showEvent(SingleMessageToast.Long(message))
+
+    protected fun showEvent(event: SingleEvent) = _singleEvent.onNext(event)
 
     override fun onCleared() {
         compositeDisposable.clear()
