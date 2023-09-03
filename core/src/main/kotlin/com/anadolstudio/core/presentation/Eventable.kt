@@ -81,7 +81,7 @@ interface Eventable {
                 is SingleErrorToast.Short -> Toast.LENGTH_SHORT
             }
 
-            event.error.message?.let { message -> createToast(uiEntity.provideContext(), message, length) }
+            createToast(uiEntity.provideContext(), event.error.message.orEmpty(), length)
         }
 
         override fun showErrorSnackbar(event: SingleErrorSnack) {
@@ -90,7 +90,7 @@ interface Eventable {
                 is SingleErrorSnack.Short -> Toast.LENGTH_SHORT
             }
 
-            event.error.message?.let { message -> createSnackbar(uiEntity.provideRootView(), message, length) }
+            createSnackbar(uiEntity.provideRootView(), event.error.message.orEmpty(), length)
         }
 
         override fun handleCustomEvent(event: SingleCustomEvent) = Unit
