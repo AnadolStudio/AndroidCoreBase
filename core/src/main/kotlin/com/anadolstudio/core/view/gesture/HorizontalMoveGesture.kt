@@ -16,7 +16,7 @@ class HorizontalMoveGesture(
 ) : GestureDetector.SimpleOnGestureListener() {
 
     private companion object {
-        const val SWIPE_THRESHOLD = 100
+        const val SWIPE_THRESHOLD = 50
         const val SWIPE_VELOCITY_THRESHOLD = 100
         const val VALID_ANGLE_MOVE_DELTA = 25F
     }
