@@ -10,12 +10,13 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.annotation.StyleRes
 import androidx.cardview.widget.CardView
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import com.anadolstudio.core.R
-import com.anadolstudio.core.util.common.throttleClick
 import com.anadolstudio.core.databinding.ViewToolbarBinding
+import com.anadolstudio.core.util.common.throttleClick
 
-open class BaseToolbar @JvmOverloads constructor(
+class BaseToolbar @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
@@ -39,6 +40,9 @@ open class BaseToolbar @JvmOverloads constructor(
             }
             setTextAppearance(getResourceId(R.styleable.BaseToolbar_textAppearance, NO_RESOURCE))
             setTintColor(getColor(R.styleable.BaseToolbar_tint, Color.BLACK))
+
+            val tint = getColor(R.styleable.BaseToolbar_iconTint, Color.TRANSPARENT)
+            if (tint != Color.TRANSPARENT) binding.toolbarBackButton.setTint(tint)
         }
     }
 
@@ -49,11 +53,15 @@ open class BaseToolbar @JvmOverloads constructor(
     }
 
     override fun onFinishInflate() {
-        for (i in 0 until childCount) {
-            val view = getChildAt(i)
-            if (view.parent == binding.mainContainer || view == binding.mainContainer) continue
+        val translatedViews = mutableListOf<View>()
+        children.forEach { view ->
+            if (view.parent != binding.mainContainer && view != binding.mainContainer) {
+                translatedViews.add(view)
+            }
+        }
 
-            removeViewAt(i)
+        translatedViews.forEach { view ->
+            removeViewInLayout(view)
             binding.toolbarIconContainer.addView(view)
         }
 
