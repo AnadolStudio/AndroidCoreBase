@@ -7,10 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.anadolstudio.core.viewmodel.livedata.SingleCustomEvent
-import com.anadolstudio.core.viewmodel.livedata.SingleError
-import com.anadolstudio.core.viewmodel.livedata.SingleEvent
-import com.anadolstudio.core.viewmodel.livedata.SingleMessage
 import com.anadolstudio.core.navigation.NavigationEvent
 import com.anadolstudio.core.presentation.Eventable
 import com.anadolstudio.core.presentation.Navigatable
@@ -21,9 +17,13 @@ import com.anadolstudio.core.presentation.event.SingleMessageSnack
 import com.anadolstudio.core.presentation.event.SingleMessageToast
 import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreActionViewModel
+import com.anadolstudio.core.viewmodel.livedata.SingleCustomEvent
+import com.anadolstudio.core.viewmodel.livedata.SingleError
+import com.anadolstudio.core.viewmodel.livedata.SingleEvent
+import com.anadolstudio.core.viewmodel.livedata.SingleMessage
 import com.anadolstudio.core.viewmodel.observe
 
-abstract class CoreActionBaseFragment<
+abstract class CoreActionFragment<
         Controller : BaseController,
         NavigateData : Any,
         ViewModel : CoreActionViewModel<NavigateData>,
