@@ -1,6 +1,7 @@
 package com.anadolstudio.core.view.toolbar
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -27,6 +28,10 @@ class ToolbarIconButton @JvmOverloads constructor(
     }
 
     fun setDrawable(drawable: Drawable?) = binding.button.setImageDrawable(drawable)
+
+    fun setTint(color: Int?) {
+        binding.button.imageTintList = color?.let { ColorStateList.valueOf(it) }
+    }
 
     override fun setOnClickListener(l: OnClickListener?) = binding.button.setOnClickListener(l)
 }
