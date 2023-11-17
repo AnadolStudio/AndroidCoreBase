@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
 import com.anadolstudio.core.navigation.NavigationEvent
 import com.anadolstudio.core.presentation.Eventable
 import com.anadolstudio.core.presentation.Navigatable
@@ -29,7 +28,7 @@ abstract class CoreActionFragment<
         ViewModel : CoreActionViewModel<NavigateData>,
         >(
         @LayoutRes private val layoutId: Int
-) : Fragment(), Eventable, UiEntity, Navigatable<NavigateData> {
+) : CoreFragment(layoutId), Eventable, UiEntity, Navigatable<NavigateData> {
 
     private val viewModel: ViewModel by lazy { createViewModel() }
     protected val controller: Controller get() = viewModel as Controller
@@ -38,6 +37,7 @@ abstract class CoreActionFragment<
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupViewModel(viewModel)
         initView(controller)
     }
@@ -83,4 +83,5 @@ abstract class CoreActionFragment<
     /* Navigatable Implementation region*/
     override fun handleNavigationEvent(event: NavigationEvent<NavigateData>) = navigatableDelegate.handleNavigationEvent(event)
     /* Navigatable Implementation end region*/
+
 }

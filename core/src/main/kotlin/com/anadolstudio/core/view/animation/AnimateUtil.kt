@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.view.Gravity
 import android.view.MotionEvent
+import android.view.MotionEvent.*
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
@@ -221,16 +222,24 @@ object AnimateUtil {
 
     @SuppressLint("ClickableViewAccessibility")
     fun View.scaleAnimationOnClick(
-            scale: Float = REDUCE_SCALE_CLICK,
-            scaleDefault: Float = SCALE_DEFAULT,
+            onTouchScale: Float = REDUCE_SCALE_CLICK,
+            defaultScale: Float = SCALE_DEFAULT,
             action: () -> Unit
     ) = setOnTouchListener { _, event ->
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> scaleAnimation(scale)
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> scaleAnimation(scaleDefault, getActionOrNull(event, action))
-        }
+        scaleOnTouch(event, onTouchScale, defaultScale, action)
 
         return@setOnTouchListener true
+    }
+
+    fun View.scaleOnTouch(
+            event: MotionEvent,
+            onTouchScale: Float,
+            defaultScale: Float,
+            action: () -> Unit
+    ) = when (event.action) {
+        ACTION_DOWN -> scaleAnimation(onTouchScale)
+        ACTION_UP, ACTION_CANCEL -> scaleAnimation(defaultScale, getActionOrNull(event, action))
+        else -> Unit
     }
 
     private fun View.getActionOrNull(event: MotionEvent, action: (() -> Unit)): (() -> Unit)? {
