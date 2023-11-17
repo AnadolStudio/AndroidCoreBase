@@ -4,25 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.FrameLayout
-import androidx.recyclerview.widget.GridLayoutManager
 import com.anadolstudio.core.util.common_extention.onTrue
 import com.anadolstudio.core.view.common.TouchEventListenerContainer
-import com.anadolstudio.core.view.gesture.ScaleGesture
 
 class TouchFrameLayout @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
-
-    private companion object {
-        const val ONE_POINTER = 1
-        const val DEFAULT_COLUM_COUNT = 3
-        const val DEFAULT_CACHE_SIZE = 50
-    }
 
     private val touchListeners = TouchEventListenerContainer()
     private val dispatchTouchListeners = TouchEventListenerContainer()

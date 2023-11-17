@@ -3,11 +3,6 @@ package com.anadolstudio.core.presentation.activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import com.anadolstudio.core.viewmodel.livedata.SingleCustomEvent
-import com.anadolstudio.core.viewmodel.livedata.SingleError
-import com.anadolstudio.core.viewmodel.livedata.SingleEvent
-import com.anadolstudio.core.viewmodel.livedata.SingleMessage
 import com.anadolstudio.core.navigation.NavigationEvent
 import com.anadolstudio.core.presentation.Eventable
 import com.anadolstudio.core.presentation.Navigatable
@@ -18,6 +13,10 @@ import com.anadolstudio.core.presentation.event.SingleMessageSnack
 import com.anadolstudio.core.presentation.event.SingleMessageToast
 import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreActionViewModel
+import com.anadolstudio.core.viewmodel.livedata.SingleCustomEvent
+import com.anadolstudio.core.viewmodel.livedata.SingleError
+import com.anadolstudio.core.viewmodel.livedata.SingleEvent
+import com.anadolstudio.core.viewmodel.livedata.SingleMessage
 import com.anadolstudio.core.viewmodel.observe
 
 abstract class CoreActionActivity<
@@ -25,7 +24,7 @@ abstract class CoreActionActivity<
         NavigateData : Any,
         ViewModel : CoreActionViewModel<NavigateData>,
         >
-    : AppCompatActivity(), UiEntity, Eventable, Navigatable<NavigateData> {
+    : CoreActivity(), UiEntity, Eventable, Navigatable<NavigateData> {
 
     protected val viewModel: ViewModel by lazy { createViewModel() }
     protected val controller: Controller get() = viewModel as Controller
