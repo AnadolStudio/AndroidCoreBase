@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="@dimen/elevation_normal"
-    tools:parentTag="androidx.cardview.widget.CardView">
+    tools:parentTag="android.widget.FrameLayout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_container"
