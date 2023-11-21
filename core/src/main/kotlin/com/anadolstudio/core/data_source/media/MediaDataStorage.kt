@@ -17,8 +17,6 @@ import android.provider.MediaStore.Images.ImageColumns
 import android.provider.MediaStore.Images.Media
 import android.provider.MediaStore.MediaColumns
 import com.anadolstudio.core.util.common_extention.nullIfEmpty
-import com.anadolstudio.core.util.rx.singleFrom
-import io.reactivex.Single
 import java.io.File
 
 class MediaDataStorage(private val context: Context) {
@@ -32,7 +30,7 @@ class MediaDataStorage(private val context: Context) {
             pageIndex: Int,
             pageSize: Int,
             folder: String?,
-    ): Single<List<String>> = singleFrom {
+    ): List<String> {
 
         val images = mutableListOf<String>()
 
@@ -49,10 +47,10 @@ class MediaDataStorage(private val context: Context) {
         val selectionArgs = mutableListOf<String>()
         val selectionBuilder = StringBuilder()
 
-        initSelection(folder, selectionArgs, selectionBuilder)
+        initImageSelection(folder, selectionArgs, selectionBuilder)
 
         val selection = if (selectionBuilder.isNotBlank()) selectionBuilder.toString() else null
-        val cursor = getGalleryCursor(uri, projection, selection, selectionArgs, pageSize, offset)
+        val cursor = getPageGalleryCursor(uri, projection, selection, selectionArgs, pageSize, offset)
 
         cursor?.use {
             val columnDataIndex = cursor.getColumnIndexOrThrow(MediaColumns._ID)
@@ -62,10 +60,10 @@ class MediaDataStorage(private val context: Context) {
             }
         }
 
-        return@singleFrom images
+        return images
     }
 
-    private fun getGalleryCursor(
+    private fun getPageGalleryCursor(
             uri: Uri,
             projection: Array<String>,
             selection: String?,
@@ -98,7 +96,7 @@ class MediaDataStorage(private val context: Context) {
         )
     }
 
-    private fun initSelection(
+    private fun initImageSelection(
             folder: String?,
             selectionArg: MutableList<String>,
             selectionBuilder: StringBuilder,
@@ -123,7 +121,7 @@ class MediaDataStorage(private val context: Context) {
         }
     }
 
-    fun loadFolders(): Single<Set<Folder>> = singleFrom {
+    fun loadFolders(): Set<Folder> {
         val folders = mutableSetOf<Folder>()
 
         val uri: Uri = Media.EXTERNAL_CONTENT_URI
@@ -169,13 +167,59 @@ class MediaDataStorage(private val context: Context) {
                 folders.add(
                         Folder(
                                 name = name,
-                                thumbPath = cursor.getString(thumbIndex)
+                                thumbPath = cursor.getString(thumbIndex),
+                                imageCount = getCountImagesByFolder(name)
                         )
                 )
             }
         }
 
-        return@singleFrom folders
+        return folders
+    }
+
+    fun getCountImagesByFolder(folder: String?): Int {
+        val uri: Uri = Media.EXTERNAL_CONTENT_URI
+
+        val projection = arrayOf(
+                MediaColumns._ID,
+                MediaColumns.MIME_TYPE,
+                Media.BUCKET_DISPLAY_NAME,
+        )
+
+        val selectionArgs = mutableListOf<String>()
+        val selectionBuilder = StringBuilder()
+
+        initImageSelection(folder, selectionArgs, selectionBuilder)
+
+        val selection = if (selectionBuilder.isNotBlank()) selectionBuilder.toString() else null
+        val cursor = getCountImagesByFolder(uri, projection, selection, selectionArgs)
+
+        return cursor?.count ?: 0
+    }
+
+    private fun getCountImagesByFolder(
+            uri: Uri,
+            projection: Array<String>,
+            selection: String?,
+            selectionArgs: List<String>
+    ): Cursor? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        context.contentResolver.query(
+                uri,
+                projection,
+                Bundle().apply {
+                    // Selection
+                    putString(QUERY_ARG_SQL_SELECTION, selection)
+                    putStringArray(QUERY_ARG_SQL_SELECTION_ARGS, selectionArgs.toTypedArray().nullIfEmpty())
+                }, null
+        )
+    } else {
+        context.contentResolver.query(
+                uri,
+                projection,
+                selection,
+                selectionArgs.toTypedArray().nullIfEmpty(),
+                null
+        )
     }
 
     private fun StringBuilder.appendNext(text: String) {
