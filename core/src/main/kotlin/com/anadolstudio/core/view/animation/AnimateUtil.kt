@@ -142,8 +142,8 @@ object AnimateUtil {
         val slide = Slide(slideEdge)
                 .setDuration(duration)
                 .setInterpolator(DecelerateInterpolator())
+                .addListener(SimpleTransitionListener(onEnd = { _, _ -> makeGone() }))
         TransitionManager.beginDelayedTransition(this, slide)
-        makeGone()
     }
 
     fun ViewGroup.animSlideIn(@Slide.GravityFlag slideEdge: Int, duration: Long = DURATION_NORMAL) {
@@ -152,8 +152,8 @@ object AnimateUtil {
         val slide = Slide(slideEdge)
                 .setDuration(duration)
                 .setInterpolator(DecelerateInterpolator())
+                .addListener(SimpleTransitionListener(onStart = { _, _ -> makeVisible() }))
         TransitionManager.beginDelayedTransition(this, slide)
-        makeVisible()
     }
 
     fun ViewGroup.animSlideTopOut(duration: Long = DURATION_NORMAL) =
