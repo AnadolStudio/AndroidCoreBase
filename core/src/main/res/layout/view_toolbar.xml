@@ -26,18 +26,36 @@
 
         <TextView
             android:id="@+id/toolbar_title"
+            style="@style/Body20"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            app:layout_goneMarginStart="16dp"
+            app:layout_constraintVertical_chainStyle="packed"
             android:lines="1"
             android:textColor="@android:color/black"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/toolbar_description"
             app:layout_constraintEnd_toStartOf="@id/toolbar_icon_container"
             app:layout_constraintStart_toEndOf="@id/toolbar_back_button"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="ToolBarTitle" />
+            app:layout_goneMarginStart="16dp"
+            tools:text="Toolbar Title" />
+
+        <TextView
+            android:id="@+id/toolbar_description"
+            style="@style/Caption12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:lines="1"
+            android:textColor="@android:color/black"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/toolbar_icon_container"
+            app:layout_constraintStart_toEndOf="@id/toolbar_back_button"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_title"
+            app:layout_goneMarginStart="16dp"
+            tools:text="Toolbar description"
+            tools:visibility="visible" />
 
         <com.anadolstudio.core.view.toolbar.ToolbarIconButton
             android:id="@+id/toolbar_back_button"
