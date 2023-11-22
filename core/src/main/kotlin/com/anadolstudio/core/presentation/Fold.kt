@@ -4,15 +4,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anadolstudio.core.util.paginator.PagingDataState
 import com.anadolstudio.core.viewmodel.LceState
 
-fun <E, R> PagingDataState<E>.fold(
+fun <E> PagingDataState<E>.fold(
         recyclerView: RecyclerView,
-        transform: (E) -> R,
-        onPageData: (data: List<R>) -> Unit,
+        onPageData: () -> Unit = {},
         onLoading: () -> Unit = {},
         onError: (error: Throwable) -> Unit = {},
         onEmptyData: () -> Unit = {},
         onContent: () -> Unit = {},
-        onUpdateData: (data: List<R>) -> Unit = {},
+        onNotContent: () -> Unit = {},
         onNextPageLoading: () -> Unit = {},
         onNextPageError: (error: Throwable) -> Unit = {},
         onAllData: () -> Unit = {},
@@ -28,13 +27,16 @@ fun <E, R> PagingDataState<E>.fold(
             is PagingDataState.Content.NextErrorPage -> onNextPageError.invoke(error)
             is PagingDataState.Content.Refresh -> onRefresh.invoke()
             is PagingDataState.Content.RefreshError -> onRefreshError.invoke()
-            is PagingDataState.Content.UpdateData -> onUpdateData.invoke(data.map(transform))
+            is PagingDataState.Content.PageData -> onPageData.invoke()
             is PagingDataState.Content.AllData -> onAllData.invoke()
-            is PagingDataState.Content.PageData -> onPageData.invoke(data.map(transform))
+            else -> Unit
         }
 
         if (this is PagingDataState.Content) {
             onContent.invoke()
+
+        } else {
+            onNotContent.invoke()
         }
     }
 }
