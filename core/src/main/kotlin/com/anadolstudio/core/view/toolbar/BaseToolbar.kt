@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import com.anadolstudio.core.R
 import com.anadolstudio.core.databinding.ViewToolbarBinding
 import com.anadolstudio.core.util.common.throttleClick
+import com.anadolstudio.core.util.common_extention.setTextOrMakeGoneIfBlank
 
 class BaseToolbar @JvmOverloads constructor(
         context: Context,
@@ -34,6 +35,7 @@ class BaseToolbar @JvmOverloads constructor(
 
         context.withStyledAttributes(attrs, R.styleable.BaseToolbar, defStyleAttr, 0) {
             setTitle(getString(R.styleable.BaseToolbar_title))
+            setDescription(getString(R.styleable.BaseToolbar_description))
             getDrawable(R.styleable.BaseToolbar_back_icon)?.let {
                 setBackIcon(it)
                 setBackIconVisible(true)
@@ -49,6 +51,7 @@ class BaseToolbar @JvmOverloads constructor(
     private fun setTintColor(color: Int) {
         with(binding) {
             toolbarTitle.setTextColor(color)
+            toolbarDescription.setTextColor(color)
         }
     }
 
@@ -84,7 +87,9 @@ class BaseToolbar @JvmOverloads constructor(
 
     fun setBackClickListener(listener: () -> Unit) = binding.toolbarBackButton.throttleClick { listener.invoke() }
 
-    fun setTitle(title: String?) = binding.toolbarTitle.setText(title)
+    fun setTitle(text: String?) = binding.toolbarTitle.setTextOrMakeGoneIfBlank(text)
+
+    fun setDescription(text: String?) = binding.toolbarDescription.setTextOrMakeGoneIfBlank(text)
 
     fun setBackIcon(drawable: Drawable?) = binding.toolbarBackButton.setDrawable(drawable)
 
