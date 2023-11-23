@@ -1,7 +1,5 @@
 package com.anadolstudio.core.util.paginator
 
-import com.anadolstudio.core.util.paginator.provider.PaginatorStateProvider
-
 interface PagingState<E> : Paginator {
     fun fail(exception: Throwable)
     fun onNewPage(data: List<E>)
@@ -96,6 +94,8 @@ open class RefreshError<E>(provider: PaginatorStateProvider<E>) : BaseState<E>(p
     override fun loadNewPage() = provider.toNewPageLoadingState()
 
     override fun refresh() = provider.toRefreshState()
+
+    override fun pullToRefresh() = provider.toRefreshState()
 
 }
 

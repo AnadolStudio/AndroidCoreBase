@@ -1,6 +1,4 @@
-package com.anadolstudio.core.util.paginator.provider
-
-import com.anadolstudio.core.util.paginator.PagingState
+package com.anadolstudio.core.util.paginator
 
 interface PaginatorStateProvider<E> : PagingState<E> {
 

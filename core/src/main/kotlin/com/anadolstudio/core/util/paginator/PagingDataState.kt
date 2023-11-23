@@ -18,4 +18,8 @@ sealed class PagingDataState<E> {
         class PageData<E>(val data: List<E>) : Content<E>()
     }
 
+    fun isLoading(): Boolean = this is Loading
+    fun isError(): Boolean = this is Error
+    fun isEmpty(): Boolean = this is Empty
+    fun isContent(): Boolean = this is Content
 }
