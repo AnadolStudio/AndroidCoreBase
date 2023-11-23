@@ -1,61 +1,37 @@
-package com.anadolstudio.core.util.paginator.provider
+package com.anadolstudio.core.util.paginator
 
-import com.anadolstudio.core.util.paginator.AllDataState
-import com.anadolstudio.core.util.paginator.EmptyDataState
-import com.anadolstudio.core.util.paginator.FirstErrorState
-import com.anadolstudio.core.util.paginator.FirstLoadingState
-import com.anadolstudio.core.util.paginator.InitState
-import com.anadolstudio.core.util.paginator.NewPageErrorState
-import com.anadolstudio.core.util.paginator.NewPageLoadingState
-import com.anadolstudio.core.util.paginator.PageDataState
-import com.anadolstudio.core.util.paginator.PagingState
-import com.anadolstudio.core.util.paginator.PagingViewController
-import com.anadolstudio.core.util.paginator.RefreshError
-import com.anadolstudio.core.util.paginator.RefreshState
-import com.anadolstudio.core.util.paginator.UpdateDataState
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
-abstract class AbstractPaginatorStateProvider<E>(
-        protected val viewController: PagingViewController<E>,
-        protected val requestFactory: (Int) -> Single<List<E>>,
+abstract class AbstractPaginatorStateProvider<OutputData, InputData>(
+        protected val viewController: PagingViewController<OutputData>,
+        protected val requestFactory: (Int) -> Single<InputData>,
         protected val firstPageNumber: Int
-) : PaginatorStateProvider<E> {
+) : PaginatorStateProvider<OutputData> {
 
     private var disposable: Disposable? = null
     protected var currentPageNumber: Int = firstPageNumber
 
-    protected abstract var currentState: PagingState<E>
+    protected abstract var currentState: PagingState<OutputData>
 
     protected fun loadPage(page: Int) {
         disposable?.dispose()
-        disposable = requestFactory.invoke(page).subscribe(
-                { data -> onNewPage(data) },
-                { fail(it) }
-        )
+        disposable = requestFabricSubscribe(requestFactory.invoke(page))
     }
 
-    protected fun loadToPage(page: Int) {
-        disposable?.dispose()
+    private fun requestFabricSubscribe(single: Single<InputData>) = mapToOutputData(single).subscribe(
+            { data -> onNewPage(data) },
+            { fail(it) }
+    )
 
-        var single = requestFactory.invoke(0)
-
-        for (i in 1 until page) {
-            single = single.zipWith(requestFactory.invoke(i)) { first, second -> first + second }
-        }
-
-        disposable = single.subscribe(
-                { data -> onNewPage(data) },
-                { fail(it) }
-        )
-    }
+    abstract fun mapToOutputData(single: Single<InputData>): Single<List<OutputData>>
 
     override fun restart() = currentState.restart()
     override fun loadNewPage() = currentState.loadNewPage()
     override fun pullToRefresh() = currentState.pullToRefresh()
     override fun refresh() = currentState.refresh()
     override fun fail(exception: Throwable) = currentState.fail(exception)
-    override fun onNewPage(data: List<E>) = currentState.onNewPage(data)
+    override fun onNewPage(data: List<OutputData>) = currentState.onNewPage(data)
 
     override fun toInitState() {
         InitState(this)
@@ -74,7 +50,8 @@ abstract class AbstractPaginatorStateProvider<E>(
         currentState = FirstErrorState(this)
     }
 
-    override fun toPageDataState(data: List<E>) {
+    override fun toPageDataState(data: List<OutputData>) {
+        currentPageNumber++
         viewController.onPageData(data)
         currentState = PageDataState(this)
     }
@@ -88,7 +65,7 @@ abstract class AbstractPaginatorStateProvider<E>(
         viewController.onNextPageLoading()
         currentState = NewPageLoadingState(this)
 
-        loadPage(++currentPageNumber)
+        loadPage(currentPageNumber + 1)
     }
 
     override fun toNewPageErrorState(exception: Throwable) {
@@ -117,7 +94,7 @@ abstract class AbstractPaginatorStateProvider<E>(
         currentState = RefreshError(this)
     }
 
-    override fun toUpdateDataState(data: List<E>) {
+    override fun toUpdateDataState(data: List<OutputData>) {
         viewController.onUpdateData(data)
 
         currentState = UpdateDataState(this)

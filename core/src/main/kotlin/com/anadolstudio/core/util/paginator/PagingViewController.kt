@@ -1,6 +1,9 @@
 package com.anadolstudio.core.util.paginator
 
-import com.anadolstudio.core.util.paginator.PagingDataState.*
+import com.anadolstudio.core.util.paginator.PagingDataState.Content
+import com.anadolstudio.core.util.paginator.PagingDataState.Empty
+import com.anadolstudio.core.util.paginator.PagingDataState.Error
+import com.anadolstudio.core.util.paginator.PagingDataState.Loading
 
 interface PagingViewController<E> {
     fun onLoading()
@@ -15,12 +18,14 @@ interface PagingViewController<E> {
     fun onRefresh()
 
     class Delegate<Data>(
-            private val getCurrentDataAction: () -> List<Data>,
+            private val provideCurrentData: () -> List<Data>,
+            private val provideCurrentPagingData: () -> PagingDataState<Data>,
             private val updateStateAction: (PagingDataState<Data>) -> Unit,
             private val updateData: (List<Data>) -> Unit,
+            private val needShowLoadingStateAfterError: Boolean = false
     ) : PagingViewController<Data> {
 
-        private val dataList: List<Data> get() = getCurrentDataAction.invoke()
+        private val dataList: List<Data> get() = provideCurrentData.invoke()
 
         override fun onLoading() = updateStateAndData(emptyList(), Loading())
         override fun onError(error: Throwable) = updateStateAndData(emptyList(), Error(error))
@@ -34,8 +39,16 @@ interface PagingViewController<E> {
         override fun onUpdateData(data: List<Data>) = updateStateAndData(data, Content.UpdateData(data))
 
         private fun updateStateAndData(data: List<Data>, state: PagingDataState<Data>) {
-            updateStateAction.invoke(state)
             updateData.invoke(data)
+
+            if (needShowLoadingStateAfterError) {
+                updateStateAction.invoke(state)
+            } else {
+                val previousState = provideCurrentPagingData.invoke()
+                val isReloadPage = previousState.isError() && state.isLoading()
+
+                if (!isReloadPage) updateStateAction.invoke(state)
+            }
         }
     }
 
