@@ -62,4 +62,11 @@ abstract class CoreFragment(@LayoutRes private val layoutId: Int) : Fragment(lay
         insetsController.isAppearanceLightStatusBars = isDark
     }
 
+    protected fun initFragmentResultListeners(vararg requestKeys: String) = requestKeys.forEach { key ->
+        childFragmentManager.setFragmentResultListener(key, this) { requestKey: String, _ ->
+            handleFragmentResult(requestKey)
+        }
+    }
+
+    protected open fun handleFragmentResult(requestKey: String) = Unit
 }

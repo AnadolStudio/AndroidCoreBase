@@ -80,4 +80,12 @@ abstract class CoreBottomSheetDialog(@LayoutRes private val layoutId: Int) : Bot
             decorate(backgroundColor, textColor, textAppearance)
         }.show()
     }
+
+    protected fun initFragmentResultListeners(vararg requestKeys: String) = requestKeys.forEach { key ->
+        childFragmentManager.setFragmentResultListener(key, this) { requestKey: String, _ ->
+            handleFragmentResult(requestKey)
+        }
+    }
+
+    protected open fun handleFragmentResult(requestKey: String) = Unit
 }
