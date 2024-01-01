@@ -19,6 +19,7 @@
         <attr name="description" />
         <attr name="tint" />
         <attr name="textAppearance" />
+        <attr name="needDivider" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="EmptyStubView">

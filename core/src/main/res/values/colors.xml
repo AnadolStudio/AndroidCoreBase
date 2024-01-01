@@ -2,5 +2,6 @@
 <resources>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorRipple">#bdbdbd</color>
+    <color name="divider">#d3d3d3</color>
 
 </resources>

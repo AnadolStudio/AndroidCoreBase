@@ -36,16 +36,24 @@ class BaseToolbar @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.BaseToolbar, defStyleAttr, 0) {
             setTitle(getString(R.styleable.BaseToolbar_title))
             setDescription(getString(R.styleable.BaseToolbar_description))
+
             getDrawable(R.styleable.BaseToolbar_back_icon)?.let {
                 setBackIcon(it)
                 setBackIconVisible(true)
             }
+
+            isDividerVisible(getBoolean(R.styleable.BaseToolbar_needDivider, true))
+
             setTextAppearance(getResourceId(R.styleable.BaseToolbar_textAppearance, NO_RESOURCE))
             setTintColor(getColor(R.styleable.BaseToolbar_tint, Color.BLACK))
 
             val tint = getColor(R.styleable.BaseToolbar_iconTint, Color.TRANSPARENT)
             if (tint != Color.TRANSPARENT) binding.toolbarBackButton.setTint(tint)
         }
+    }
+
+    fun isDividerVisible(isVisible: Boolean) {
+        binding.divider.isVisible = isVisible
     }
 
     private fun setTintColor(color: Int) {
