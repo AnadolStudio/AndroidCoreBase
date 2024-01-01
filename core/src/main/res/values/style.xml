@@ -19,4 +19,10 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <style name="Divider">
+        <item name="android:background">@color/divider</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+    </style>
+
 </resources>
