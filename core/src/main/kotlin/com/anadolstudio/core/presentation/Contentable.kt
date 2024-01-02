@@ -7,6 +7,6 @@ interface Contentable<ViewState : Any, Controller : BaseController> {
 
     val viewStateDelegate: ViewStateDelegate
 
-    fun render(state: ViewState, controller: Controller)
+    fun render(state: ViewState)
 
 }

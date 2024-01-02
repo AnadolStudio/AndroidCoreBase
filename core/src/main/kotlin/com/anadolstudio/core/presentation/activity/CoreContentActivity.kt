@@ -14,7 +14,7 @@ abstract class CoreContentActivity<
 
 
     override fun setupViewModel(viewModel: ViewModel) {
-        observe(viewModel.stateLiveData) { state -> render(state, controller) }
+        observe(viewModel.stateLiveData) { state -> render(state) }
     }
 
 }

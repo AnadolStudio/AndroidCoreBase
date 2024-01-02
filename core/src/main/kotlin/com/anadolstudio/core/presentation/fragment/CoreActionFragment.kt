@@ -39,10 +39,10 @@ abstract class CoreActionFragment<
         super.onViewCreated(view, savedInstanceState)
 
         setupViewModel(viewModel)
-        initView(controller)
+        initView()
     }
 
-    abstract fun initView(controller: Controller)
+    abstract fun initView()
 
     protected open fun setupViewModel(viewModel: ViewModel) {
         observe(viewModel.event) { singleEvent -> handleEvent(singleEvent) }

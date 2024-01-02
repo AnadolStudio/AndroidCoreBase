@@ -14,6 +14,7 @@
     <dimen name="radius_small">4dp</dimen>
     <dimen name="radius_medium">10dp</dimen>
     <dimen name="radius_large">16dp</dimen>
+    <dimen name="radius_xlarge">32dp</dimen>
 
     <dimen name="min_touch_size">48dp</dimen>
 

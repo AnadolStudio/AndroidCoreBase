@@ -16,7 +16,7 @@ abstract class CoreContentBottomSheetDialog<
 
     override fun setupViewModel(viewModel: ViewModel) {
         super.setupViewModel(viewModel)
-        observe(viewModel.stateLiveData) { state -> render(state, controller) }
+        observe(viewModel.stateLiveData) { state -> render(state) }
     }
 
 }
