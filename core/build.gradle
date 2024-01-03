@@ -65,7 +65,7 @@ dependencies {
 
     // JodaTime
     def joda_time = "2.10.3"
-    implementation "joda-time:joda-time:$joda_time"
+    api("joda-time:joda-time:$joda_time")
 
     //Rx
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -73,7 +73,7 @@ dependencies {
     
     // Preferences
     def preferences = "1.0.1"
-    implementation "com.github.yandextaxitech:binaryprefs:$preferences"
+    api "com.github.yandextaxitech:binaryprefs:$preferences"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
