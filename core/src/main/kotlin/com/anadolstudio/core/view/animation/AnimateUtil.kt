@@ -238,7 +238,8 @@ object AnimateUtil {
             action: () -> Unit
     ) = when (event.action) {
         ACTION_DOWN -> scaleAnimation(onTouchScale)
-        ACTION_UP, ACTION_CANCEL -> scaleAnimation(defaultScale, getActionOrNull(event, action))
+        ACTION_UP -> scaleAnimation(defaultScale, getActionOrNull(event, action))
+        ACTION_CANCEL -> scaleAnimation(defaultScale)
         else -> Unit
     }
 
