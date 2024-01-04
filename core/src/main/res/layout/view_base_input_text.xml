@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:tag="text_input_layout"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        style="@style/EditTextStyle"
+        app:hintTextAppearance="@style/Caption12"
+        tools:errorEnabled="false"
+        tools:hint="Hint"
+        tools:textColorHint="@color/colorAccent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="true"
+            android:paddingBottom="4dp"
+            android:paddingHorizontal="4dp"
+            android:paddingTop="10dp"
+            android:tag="edit_text"
+            android:textAppearance="@style/Caption14"
+            android:textColorHighlight="@color/colorAccent"
+            tools:text="Text" />
+        <!--TODO add android:textAppearance to styles-->
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@color/divider"
+            android:tag="underline" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="4dp"
+                android:tag="support_hint_start_image"
+                android:visibility="gone"
+                tools:src="@drawable/ic_share"
+                tools:tint="@color/divider"
+                tools:visibility="visible" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:tag="support_hint"
+                tools:text="Support hint Support hint Support hint\nSupport hint" />
+
+        </LinearLayout>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</merge>
