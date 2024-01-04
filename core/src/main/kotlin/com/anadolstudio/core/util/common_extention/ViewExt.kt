@@ -1,9 +1,11 @@
 package com.anadolstudio.core.util.common_extention
 
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.anadolstudio.core.R
+import com.anadolstudio.core.util.common.dpToPx
 
 fun View.makeGone() {
     this.visibility = View.GONE
@@ -58,3 +60,16 @@ fun TextView.setLimitText(text: CharSequence?, limit: Int) {
 
     this.text = correctName
 }
+
+fun View.setMargins(start: Int? = null, top: Int? = null, end: Int? = null, bottom: Int? = null) {
+    val params = getMarginLayoutParams()
+    params?.setMargins(
+            start?.dpToPx() ?: params.marginStart,
+            top?.dpToPx() ?: params.topMargin,
+            end?.dpToPx() ?: params.marginEnd,
+            bottom?.dpToPx() ?: params.bottomMargin
+    )
+}
+
+fun View.getMarginLayoutParams(): ViewGroup.MarginLayoutParams? = layoutParams as? ViewGroup.MarginLayoutParams
+
