@@ -20,12 +20,12 @@ import com.anadolstudio.core.viewmodel.BaseController
 import com.anadolstudio.core.viewmodel.CoreActionViewModel
 import com.anadolstudio.core.viewmodel.observe
 
-abstract class CoreActionBottomSheetDialog<
+abstract class CoreActionBottom<
         Controller : BaseController,
         NavigateData : Any,
         ViewModel : CoreActionViewModel<NavigateData>>(
         @LayoutRes layoutId: Int
-) : CoreBottomSheetDialog(layoutId), Eventable, UiEntity, Navigatable<NavigateData> {
+) : CoreBottom(layoutId), Eventable, UiEntity, Navigatable<NavigateData> {
 
     private val viewModel: ViewModel by lazy { createViewModel() }
     protected val controller: Controller get() = viewModel as Controller
@@ -35,7 +35,12 @@ abstract class CoreActionBottomSheetDialog<
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel(viewModel)
+        initView()
     }
+
+    abstract fun initView()
+
+    override fun getDialogTag(): String = this::class.simpleName.toString()
 
     protected open fun setupViewModel(viewModel: ViewModel) {
         observe(viewModel.event) { singleEvent -> handleEvent(singleEvent) }
