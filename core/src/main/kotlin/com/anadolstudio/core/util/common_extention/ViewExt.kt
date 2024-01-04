@@ -3,6 +3,7 @@ package com.anadolstudio.core.util.common_extention
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.anadolstudio.core.R
 
 fun View.makeGone() {
     this.visibility = View.GONE
@@ -46,4 +47,14 @@ fun TextView.setTextOrMakeGone(text: CharSequence?) {
 fun TextView.setTextOrMakeGoneIfBlank(text: CharSequence?) {
     this.text = text
     isVisible = !text.isNullOrBlank()
+}
+
+fun TextView.setLimitText(text: CharSequence?, limit: Int) {
+    val correctName = if (text == null || text.length <= limit) {
+        text
+    } else {
+        text.take(limit - 1).trim().toString().plus(context.getString(R.string.symbol_multi_dot))
+    }
+
+    this.text = correctName
 }
