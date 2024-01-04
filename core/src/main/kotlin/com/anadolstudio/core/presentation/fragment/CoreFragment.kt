@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.anadolstudio.core.util.night_mode.getCurrentNightMode
 
 abstract class CoreFragment(@LayoutRes private val layoutId: Int) : Fragment(layoutId) {
@@ -63,10 +64,15 @@ abstract class CoreFragment(@LayoutRes private val layoutId: Int) : Fragment(lay
     }
 
     protected fun initFragmentResultListeners(vararg requestKeys: String) = requestKeys.forEach { key ->
-        childFragmentManager.setFragmentResultListener(key, this) { requestKey: String, _ ->
-            handleFragmentResult(requestKey)
+        setFragmentResultListener(childFragmentManager, key)
+        setFragmentResultListener(parentFragmentManager, key)
+    }
+
+    protected fun setFragmentResultListener(fragmentManager: FragmentManager, key: String) {
+        fragmentManager.setFragmentResultListener(key, this) { requestKey: String, data: Bundle ->
+            handleFragmentResult(requestKey, data)
         }
     }
 
-    protected open fun handleFragmentResult(requestKey: String) = Unit
+    protected open fun handleFragmentResult(requestKey: String, data: Bundle) = Unit
 }
