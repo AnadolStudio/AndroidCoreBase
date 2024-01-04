@@ -17,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
-abstract class CoreBottomSheetDialog(@LayoutRes private val layoutId: Int) : BottomSheetDialogFragment() {
+abstract class CoreBottom(@LayoutRes private val layoutId: Int) : BottomSheetDialogFragment() {
 
     abstract fun getDialogTag(): String
 

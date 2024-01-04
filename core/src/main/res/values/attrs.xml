@@ -31,4 +31,8 @@
         <attr name="descriptionTextAppearance" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="BottomTopLine">
+        <attr name="android:tint" />
+    </declare-styleable>
+
 </resources>
