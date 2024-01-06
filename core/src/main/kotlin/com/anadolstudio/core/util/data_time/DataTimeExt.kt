@@ -23,6 +23,8 @@ data class Time(
     val hoursString: String = hours.toTimeNumber()
     val minutesString: String = minutes.toTimeNumber()
     val secondsString: String = seconds.toTimeNumber()
+
+    val totalMinutes: Int = hours * 60 + minutes + seconds / 60
 }
 
 private fun Int.toTimeNumber(): String = if (this < 10) "0$this" else "$this"
