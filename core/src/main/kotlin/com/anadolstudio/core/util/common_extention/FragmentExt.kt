@@ -22,6 +22,8 @@ fun Fragment.setFragmentResult(requestKey: String, result: Any) = setFragmentRes
         bundleOf(getString(R.string.data) to result)
 )
 
+fun Fragment.setFragmentResult(requestKey: String) = setFragmentResult(requestKey, bundleOf())
+
 inline fun <reified Data : Parcelable> Fragment.getParcelable(bundle: Bundle): Data? {
     return getParcelable(bundle, getString(R.string.data), Data::class.java)
 }
