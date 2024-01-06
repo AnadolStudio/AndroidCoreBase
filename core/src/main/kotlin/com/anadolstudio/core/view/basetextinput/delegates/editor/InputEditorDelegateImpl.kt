@@ -74,6 +74,7 @@ class InputEditorDelegateImpl : InputEditorDelegate {
 
         editText.onFocusChangeListener = focusChangeListenerContainer
         editText.setOnTouchListener(touchEventListenerContainer)
+        editText.addTextChangedListener(textWatcherContainer)
 
         baseTextInputView.addValidateListener(
                 onSuccess = {

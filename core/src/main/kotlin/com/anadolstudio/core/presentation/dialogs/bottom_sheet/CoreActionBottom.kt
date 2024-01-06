@@ -51,7 +51,7 @@ abstract class CoreActionBottom<
 
     override fun provideContext(): Context = requireContext()
 
-    override fun provideRootView(): View = requireView()
+    override fun provideRootView(): View = requireDialog().findViewById(android.R.id.content)
 
     /* Eventable Implementation region*/
     override fun handleEvent(event: SingleEvent) = eventableDelegate.handleEvent(event)

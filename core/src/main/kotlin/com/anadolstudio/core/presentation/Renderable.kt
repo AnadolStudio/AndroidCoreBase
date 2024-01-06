@@ -4,7 +4,7 @@ interface Renderable {
 
     val stateMap: MutableMap<String, Any?>
 
-    fun <State : Any> State.render(key: String, render: State.() -> Unit) {
+    fun <State : Any?> State.render(key: String, render: State.() -> Unit) {
         if (!hasChanges(stateMap[key], this)) return
 
         stateMap[key] = this
@@ -12,7 +12,11 @@ interface Renderable {
         render.invoke(this)
     }
 
-    fun <State : Any> State.render(primaryKey: String, vararg dependentStates: Pair<String, Any?>, render: State.() -> Unit) {
+    fun <State : Any?> State.render(
+        primaryKey: String,
+        vararg dependentStates: Pair<String, Any?>,
+        render: State.() -> Unit
+    ) {
         val dependentStateMap = dependentStates.toMap().toMutableMap()
         dependentStateMap[primaryKey] = this
 
