@@ -27,3 +27,7 @@ fun Fragment.setFragmentResult(requestKey: String) = setFragmentResult(requestKe
 inline fun <reified Data : Parcelable> Fragment.getParcelable(bundle: Bundle): Data? {
     return getParcelable(bundle, getString(R.string.data), Data::class.java)
 }
+
+inline fun <reified Data : Parcelable> Fragment.requireParcelable(bundle: Bundle): Data {
+    return requireNotNull(getParcelable(bundle, getString(R.string.data), Data::class.java))
+}
