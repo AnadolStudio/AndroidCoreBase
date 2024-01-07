@@ -37,10 +37,13 @@ fun <T> Flowable<T>.schedulersIoToMain(): Flowable<T> = subscribeOn(Schedulers.i
 fun Completable.schedulersIoToMain(): Completable = subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
 fun Completable.smartSubscribe(
+        onSubscribe: (() -> Unit)? = null,
         onComplete: (() -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onFinally: (() -> Unit)? = null
-): Disposable = this.subscribe(
+): Disposable = this
+        .doOnSubscribe { onSubscribe?.invoke() }
+        .subscribe(
         {
             onComplete?.invoke()
             onFinally?.invoke()
