@@ -30,16 +30,15 @@ fun <T> Single<T>.schedulersIoToMain(): Single<T> = subscribeOn(Schedulers.io())
 
 fun <T> Single<T>.smartSubscribe(
         isSchedulersIoToMain: Boolean = true,
+        onSubscribe: (() -> Unit)? = null,
         onSuccess: ((T) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
-        onFinally: (() -> Unit)? = null
+        onFinally: (() -> Unit)? = null,
 ): Disposable {
     val single = if (isSchedulersIoToMain) this.schedulersIoToMain() else this
 
     return single
-            .doOnSubscribe {
-
-            }
+            .doOnSubscribe { onSubscribe?.invoke() }
             .subscribe(
                     { data ->
                         onSuccess?.invoke(data)
