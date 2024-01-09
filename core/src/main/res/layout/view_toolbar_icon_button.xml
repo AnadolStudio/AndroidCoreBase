@@ -9,9 +9,9 @@
 
     <ImageView
         android:id="@+id/button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="12dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="6dp"
         android:layout_marginHorizontal="4dp"
         app:tint="@color/colorAccent"
         tools:src="@drawable/ic_arrow_back"
