@@ -225,10 +225,15 @@ object AnimateUtil {
             onTouchScale: Float = REDUCE_SCALE_CLICK,
             defaultScale: Float = SCALE_DEFAULT,
             action: () -> Unit
-    ) = setOnTouchListener { _, event ->
-        scaleOnTouch(event, onTouchScale, defaultScale, action)
+    ) {
+        scaleX = defaultScale
+        scaleY = defaultScale
 
-        return@setOnTouchListener true
+        setOnTouchListener { _, event ->
+            scaleOnTouch(event, onTouchScale, defaultScale, action)
+
+            return@setOnTouchListener true
+        }
     }
 
     fun View.scaleOnTouch(
