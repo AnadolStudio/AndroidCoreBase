@@ -4,12 +4,13 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatDelegate
 
-fun getCurrentNightMode(resources: Resources): Int {
-    return when (val systemNightMode = AppCompatDelegate.getDefaultNightMode()) {
-        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
-        AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> getNightModeFromSystem(resources)
-        else -> systemNightMode
-    }
+fun getCurrentNightMode(resources: Resources): Int = getCurrentNightMode(
+        resources, AppCompatDelegate.getDefaultNightMode()
+)
+
+fun getCurrentNightMode(resources: Resources, systemNightMode: Int): Int = when (systemNightMode) {
+    AppCompatDelegate.MODE_NIGHT_NO, AppCompatDelegate.MODE_NIGHT_YES -> systemNightMode
+    else -> getNightModeFromSystem(resources)
 }
 
 private fun getNightModeFromSystem(resources: Resources): Int {
