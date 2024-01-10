@@ -62,12 +62,21 @@ fun TextView.setLimitText(text: CharSequence?, limit: Int) {
 }
 
 fun View.setMargins(start: Int? = null, top: Int? = null, end: Int? = null, bottom: Int? = null) {
+    setDimensMargins(
+            start = start?.dpToPx(),
+            top = top?.dpToPx(),
+            end = end?.dpToPx(),
+            bottom = bottom?.dpToPx(),
+    )
+}
+
+fun View.setDimensMargins(start: Int? = null, top: Int? = null, end: Int? = null, bottom: Int? = null) {
     val params = getMarginLayoutParams()
     params?.setMargins(
-            start?.dpToPx() ?: params.marginStart,
-            top?.dpToPx() ?: params.topMargin,
-            end?.dpToPx() ?: params.marginEnd,
-            bottom?.dpToPx() ?: params.bottomMargin
+            start ?: params.marginStart,
+            top ?: params.topMargin,
+            end ?: params.marginEnd,
+            bottom ?: params.bottomMargin
     )
 }
 
