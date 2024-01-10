@@ -50,4 +50,21 @@
         <item name="colorError">@color/colorAccent</item>
     </style>
 
+    <style name="DialogAlertTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DialogAlertButton</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DialogAlertButton</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:colorBackgroundCacheHint">@color/colorPrimary</item>
+    </style>
+
+    <style name="DialogAlertButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="rippleColor">@color/colorRipple</item>
+    </style>
+
 </resources>
