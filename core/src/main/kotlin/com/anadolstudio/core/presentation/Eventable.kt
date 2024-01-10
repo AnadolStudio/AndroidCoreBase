@@ -39,7 +39,7 @@ interface Eventable {
 
         override fun handleEvent(event: SingleEvent) = when (event) {
             is SingleMessage -> handleMessageEvent(event)
-            is SingleError -> Unit
+            is SingleError -> handleErrorEvent(event)
             is SingleCustomEvent -> handleCustomEvent(event)
         }
 
@@ -86,8 +86,8 @@ interface Eventable {
 
         override fun showErrorSnackbar(event: SingleErrorSnack) {
             val length = when (event) {
-                is SingleErrorSnack.Long -> Toast.LENGTH_LONG
-                is SingleErrorSnack.Short -> Toast.LENGTH_SHORT
+                is SingleErrorSnack.Long -> Snackbar.LENGTH_LONG
+                is SingleErrorSnack.Short -> Snackbar.LENGTH_SHORT
             }
 
             createSnackbar(uiEntity.provideRootView(), event.error.message.orEmpty(), length)
