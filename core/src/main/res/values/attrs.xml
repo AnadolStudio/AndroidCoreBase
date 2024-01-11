@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="src" format="reference" />
+    <attr name="title" format="string" />
+    <attr name="description" format="string|reference" />
+    <attr name="tint" format="color|reference" />
+    <attr name="textAppearance" format="reference" />
+    <attr name="iconTint" format="color|reference" />
+
+    <declare-styleable name="ToolbarIconButton">
+        <attr name="src" />
+    </declare-styleable>
+
+    <declare-styleable name="BaseToolbar">
+        <attr name="back_icon" format="reference" />
+        <attr name="iconTint" />
+        <attr name="title" />
+        <attr name="description" />
+        <attr name="tint" />
+        <attr name="textAppearance" />
+        <attr name="needDivider" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="EmptyStubView">
+        <attr name="src" />
+        <attr name="srcSide" format="dimension" />
+        <attr name="description" />
+        <attr name="title" />
+        <attr name="titleTextAppearance" format="reference" />
+        <attr name="descriptionTextAppearance" format="reference" />
+    </declare-styleable>
+
+</resources>
