@@ -20,11 +20,8 @@ class BottomTopLine @JvmOverloads constructor(
 
     init {
         context.withStyledAttributes(attrs, R.styleable.BottomTopLine, defStyleAttr, 0) {
-            backgroundTintList = getColorStateList(R.styleable.BottomTopLine_android_tint)
+            binding.imageView.imageTintList = getColorStateList(R.styleable.BottomTopLine_android_tint)
         }
     }
 
-    override fun setBackgroundTintList(tint: ColorStateList?) {
-        binding.imageView.imageTintList = tint
-    }
 }
