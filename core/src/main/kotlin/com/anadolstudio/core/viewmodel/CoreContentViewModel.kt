@@ -13,10 +13,10 @@ abstract class CoreContentViewModel<State : Any, NavigateData : Any>(
 
     protected val state: State get() = _stateLiveData.value ?: initState
 
-    protected fun updateState(action: State.() -> State) {
+    protected fun updateState(forceUpdate: Boolean = false, action: State.() -> State) {
         val newState = action.invoke(state)
 
-        if (newState != state) {
+        if (newState != state || forceUpdate) {
             _stateLiveData.onNext(newState)
         }
     }
