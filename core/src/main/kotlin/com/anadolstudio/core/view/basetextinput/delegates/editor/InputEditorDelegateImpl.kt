@@ -95,6 +95,8 @@ class InputEditorDelegateImpl : InputEditorDelegate {
 
     override fun getSelectionStart(): Int = editText.selectionStart
 
+    override fun getSelectionEnd(): Int = editText.selectionEnd
+
     override fun setSelectionStart(index: Int) = editText.setSelection(index)
 
     override fun setSelectorToEnd() = editText.setSelection(getRawText().length)
