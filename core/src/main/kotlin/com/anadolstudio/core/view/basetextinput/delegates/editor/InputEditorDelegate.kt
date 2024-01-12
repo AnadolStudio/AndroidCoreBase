@@ -22,6 +22,7 @@ interface InputEditorDelegate: InputSupportHintDelegate {
     fun getRawText(): String
     fun setText(text: String?)
     fun getSelectionStart():Int
+    fun getSelectionEnd():Int
     fun setSelectionStart(index: Int)
     fun setSelectorToEnd()
 
