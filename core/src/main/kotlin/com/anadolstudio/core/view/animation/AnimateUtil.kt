@@ -229,8 +229,8 @@ object AnimateUtil {
         scaleX = defaultScale
         scaleY = defaultScale
 
-        setOnTouchListener { _, event ->
-            scaleOnTouch(event, onTouchScale, defaultScale, action)
+        setOnTouchListener { view, event ->
+            view.scaleOnTouch(event, onTouchScale, defaultScale, action)
 
             return@setOnTouchListener true
         }
