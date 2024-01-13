@@ -2,6 +2,7 @@ package com.anadolstudio.core.presentation.dialogs.alert
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import com.anadolstudio.core.R
 
@@ -9,15 +10,17 @@ object AlertDialogBuilder {
 
     fun buildChoiceDialog(
             context: Context,
+            @StyleRes theme: Int = R.style.DialogAlertTheme,
             title: String? = null,
             message: String? = null,
             @StringRes positiveTextRes: Int = R.string.yes,
-            @StringRes negativeTextRes: Int = android.R.string.cancel,
+            @StringRes negativeTextRes: Int = R.string.no,
             onPositiveButtonClicked: () -> Unit = {},
             onNegativeButtonClicked: (() -> Unit) = {},
             cancelable: Boolean = false
     ): AlertDialog = buildDialog(
             context = context,
+            theme = theme,
             title = title,
             message = message,
             positiveTextRes = positiveTextRes,
@@ -29,12 +32,14 @@ object AlertDialogBuilder {
 
     fun buildInformationDialog(
             context: Context,
+            @StyleRes theme: Int = R.style.DialogAlertTheme,
             title: String? = null,
             message: String? = null,
             @StringRes positiveTextRes: Int = R.string.yes,
             onPositiveButtonClicked: () -> Unit = {},
     ): AlertDialog = buildDialog(
             context = context,
+            theme = theme,
             title = title,
             message = message,
             positiveTextRes = positiveTextRes,
@@ -43,6 +48,7 @@ object AlertDialogBuilder {
 
     fun buildDialog(
             context: Context,
+            @StyleRes theme: Int = R.style.DialogAlertTheme,
             title: String? = null,
             message: String? = null,
             @StringRes positiveTextRes: Int = R.string.yes,
@@ -50,7 +56,7 @@ object AlertDialogBuilder {
             onPositiveButtonClicked: () -> Unit = {},
             onNegativeButtonClicked: (() -> Unit)? = null,
             cancelable: Boolean = true
-    ): AlertDialog = AlertDialog.Builder(context, R.style.DialogAlertTheme)
+    ): AlertDialog = AlertDialog.Builder(context, theme)
             .setTitle(title)
             .setMessage(message)
             .setCancelable(cancelable)
