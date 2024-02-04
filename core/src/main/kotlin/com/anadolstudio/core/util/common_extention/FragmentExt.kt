@@ -31,3 +31,9 @@ inline fun <reified Data : Parcelable> Fragment.getParcelable(bundle: Bundle): D
 inline fun <reified Data : Parcelable> Fragment.requireParcelable(bundle: Bundle): Data {
     return requireNotNull(getParcelable(bundle, getString(R.string.data), Data::class.java))
 }
+
+fun Fragment.requireLong(bundle: Bundle): Long = requireNotNull(bundle.getLong(getString(R.string.data)))
+
+fun Fragment.requireLongList(bundle: Bundle): List<Long> = requireNotNull(
+        bundle.getLongArray(getString(R.string.data))
+).toList()
