@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">@android:color/holo_green_dark</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#FFFFFF</color>
+    <color name="colorRipple">#bdbdbd</color>
+    <color name="divider">#d3d3d3</color>
+
+</resources>
