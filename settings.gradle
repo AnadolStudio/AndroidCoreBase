@@ -13,4 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "AndroidCoreBase"
-include ':core'
+include ':utils'
+include ':ui'
+include ':paginator'
+include ':view'

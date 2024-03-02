@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="symbol_multi_dot">…</string>
+
+    <!--nav_args-->
+    <string name="data">data</string>
+</resources>

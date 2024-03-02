@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_text_number_digits">0123456789</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+</resources>
