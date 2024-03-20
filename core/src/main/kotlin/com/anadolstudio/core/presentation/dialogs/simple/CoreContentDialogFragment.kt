@@ -2,9 +2,9 @@ package com.anadolstudio.core.presentation.dialogs.simple
 
 import androidx.annotation.LayoutRes
 import com.anadolstudio.core.presentation.Contentable
-import com.anadolstudio.core.viewmodel.BaseController
-import com.anadolstudio.core.viewmodel.CoreContentViewModel
-import com.anadolstudio.core.viewmodel.observe
+import com.anadolstudio.viewmodel.BaseController
+import com.anadolstudio.viewmodel.CoreContentViewModel
+import com.anadolstudio.viewmodel.observe
 
 abstract class CoreContentDialogFragment<
         ViewState : Any,
