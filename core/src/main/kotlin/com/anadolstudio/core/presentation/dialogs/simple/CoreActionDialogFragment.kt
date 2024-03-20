@@ -12,13 +12,13 @@ import com.anadolstudio.core.presentation.event.SingleErrorSnack
 import com.anadolstudio.core.presentation.event.SingleErrorToast
 import com.anadolstudio.core.presentation.event.SingleMessageSnack
 import com.anadolstudio.core.presentation.event.SingleMessageToast
-import com.anadolstudio.core.viewmodel.BaseController
-import com.anadolstudio.core.viewmodel.CoreActionViewModel
-import com.anadolstudio.core.viewmodel.livedata.SingleCustomEvent
-import com.anadolstudio.core.viewmodel.livedata.SingleError
-import com.anadolstudio.core.viewmodel.livedata.SingleEvent
-import com.anadolstudio.core.viewmodel.livedata.SingleMessage
-import com.anadolstudio.core.viewmodel.observe
+import com.anadolstudio.viewmodel.BaseController
+import com.anadolstudio.viewmodel.CoreActionViewModel
+import com.anadolstudio.viewmodel.livedata.SingleCustomEvent
+import com.anadolstudio.viewmodel.livedata.SingleError
+import com.anadolstudio.viewmodel.livedata.SingleEvent
+import com.anadolstudio.viewmodel.livedata.SingleMessage
+import com.anadolstudio.viewmodel.observe
 
 abstract class CoreActionDialogFragment<
         Controller : BaseController,

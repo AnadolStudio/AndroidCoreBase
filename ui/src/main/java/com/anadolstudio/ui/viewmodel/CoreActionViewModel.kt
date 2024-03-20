@@ -1,9 +1,9 @@
 package com.anadolstudio.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.anadolstudio.ui.navigation.NavigationEvent
 import com.anadolstudio.ui.SingleErrorSnack
 import com.anadolstudio.ui.SingleMessageToast
+import com.anadolstudio.ui.navigation.NavigationEvent
 import com.anadolstudio.ui.viewmodel.livedata.SingleEvent
 import com.anadolstudio.ui.viewmodel.livedata.SingleLiveEvent
 import com.anadolstudio.ui.viewmodel.livedata.onNext
@@ -32,6 +32,6 @@ abstract class CoreActionViewModel<NavigateData> : ViewModel() {
         super.onCleared()
     }
 
-    protected fun Disposable.disposeOnCleared(): Disposable = this.also(compositeDisposable::add)
+    protected fun Disposable?.disposeOnCleared(): Disposable? = this?.also(compositeDisposable::add)
 
 }
