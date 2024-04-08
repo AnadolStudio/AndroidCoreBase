@@ -16,7 +16,6 @@ import android.os.Bundle
 import android.provider.MediaStore.Images.ImageColumns
 import android.provider.MediaStore.Images.Media
 import android.provider.MediaStore.MediaColumns
-import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import com.anadolstudio.utils.util.extentions.nullIfEmpty
 import org.joda.time.DateTime
