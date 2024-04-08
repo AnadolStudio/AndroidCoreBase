@@ -16,7 +16,6 @@ import android.os.Bundle
 import android.provider.MediaStore.Images.ImageColumns
 import android.provider.MediaStore.Images.Media
 import android.provider.MediaStore.MediaColumns
-import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import com.anadolstudio.utils.util.extentions.nullIfEmpty
 import org.joda.time.DateTime
@@ -42,9 +41,9 @@ class MediaDataStorage(private val context: Context) {
 
         val projection = arrayOf(
             MediaColumns._ID,
+            MediaColumns.DATA,
             MediaColumns.MIME_TYPE,
             Media.BUCKET_DISPLAY_NAME,
-            MediaColumns.DATE_TAKEN,
         )
 
         val selectionArgs = mutableListOf<String>()
@@ -58,15 +57,18 @@ class MediaDataStorage(private val context: Context) {
 
         cursor?.use {
             val idIndex = cursor.getColumnIndexOrThrow(MediaColumns._ID)
+            val dataIndex = cursor.getColumnIndexOrThrow(MediaColumns.DATA)
             val mimeTypeIndex = cursor.getColumnIndexOrThrow(MediaColumns.MIME_TYPE)
             val bucketDisplayNameIndex =
                 cursor.getColumnIndexOrThrow(MediaColumns.BUCKET_DISPLAY_NAME)
-            val dateTakenIndex = cursor.getColumnIndexOrThrow(MediaColumns.DATE_TAKEN)
 
             while (cursor.moveToNext()) {
+                val path = cursor.getStringOrNull(dataIndex)
+                val date = path?.let { File(it) }?.lastModified()
+
                 val image = Image(
                     path = Uri.withAppendedPath(uri, cursor.getString(idIndex)).toString(),
-                    date = cursor.getLongOrNull(dateTakenIndex)?.let(::DateTime) ?: DateTime.now(),
+                    date = date?.let(::DateTime) ?: DateTime(0L),
                     folder = cursor.getStringOrNull(bucketDisplayNameIndex),
                     format = cursor.getStringOrNull(mimeTypeIndex),
                 )
