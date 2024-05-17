@@ -1,11 +1,37 @@
 package com.anadolstudio.utils.util.extentions
 
 import android.graphics.Color
+import android.graphics.Color
 import androidx.core.graphics.alpha
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.core.math.MathUtils
+
+private const val SIGN = "#"
+private const val COLOR_PATTERN = """[a-fA-F0-9]{6}"""
+
+fun String?.parseColorOrDefault(defaultColor: String): Int = parseColorOrNull()
+        ?: Color.parseColor(defaultColor)
+
+fun String?.parseColorOrDefault(defaultColor: Int): Int = parseColorOrNull() ?: defaultColor
+
+fun String?.parseColorOrNull(): Int? {
+    if (this == null || !this.replace(SIGN, "").matches(Regex(COLOR_PATTERN))) return null
+
+    return try {
+        this.parseColor()
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+}
+
+@Throws(IllegalArgumentException::class)
+fun String.parseColor(): Int {
+    val correctString = this.replace(SIGN, "")
+
+    return Color.parseColor("$SIGN$correctString")
+}
 
 fun getAverageColor(color1: Int, color2: Int): Int {
     val a1 = color1.alpha
