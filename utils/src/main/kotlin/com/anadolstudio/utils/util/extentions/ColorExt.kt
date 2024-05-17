@@ -1,7 +1,6 @@
 package com.anadolstudio.utils.util.extentions
 
 import android.graphics.Color
-import android.graphics.Color
 import androidx.core.graphics.alpha
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
