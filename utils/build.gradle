@@ -91,6 +91,8 @@ dependencies {
 
     // Timber
     api 'com.jakewharton.timber:timber:5.0.1'
+    def logger = "2.2.0"
+    api "com.orhanobut:logger:$logger"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
