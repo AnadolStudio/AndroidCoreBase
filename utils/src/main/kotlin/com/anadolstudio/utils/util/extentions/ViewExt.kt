@@ -82,3 +82,6 @@ fun View.setDimensMargins(start: Int? = null, top: Int? = null, end: Int? = null
 
 fun View.getMarginLayoutParams(): ViewGroup.MarginLayoutParams? = layoutParams as? ViewGroup.MarginLayoutParams
 
+val View.centerX:Int get() = width / 2
+val View.centerY:Int get() = height / 2
+
