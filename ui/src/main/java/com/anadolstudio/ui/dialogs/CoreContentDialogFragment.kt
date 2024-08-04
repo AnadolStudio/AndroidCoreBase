@@ -1,10 +1,10 @@
-package com.anadolstudio.core.presentation.dialogs.simple
+package com.anadolstudio.ui.dialogs
 
 import androidx.annotation.LayoutRes
-import com.anadolstudio.core.presentation.Contentable
-import com.anadolstudio.viewmodel.BaseController
-import com.anadolstudio.viewmodel.CoreContentViewModel
-import com.anadolstudio.viewmodel.observe
+import com.anadolstudio.ui.Contentable
+import com.anadolstudio.ui.viewmodel.BaseController
+import com.anadolstudio.ui.viewmodel.CoreContentViewModel
+import com.anadolstudio.ui.viewmodel.observe
 
 abstract class CoreContentDialogFragment<
         ViewState : Any,
@@ -12,7 +12,7 @@ abstract class CoreContentDialogFragment<
         ViewModel : CoreContentViewModel<ViewState, NavigateData>,
         Controller : BaseController>(
         @LayoutRes layoutId: Int
-) : CoreActionDialogFragment<Controller, NavigateData,ViewModel>(layoutId), Contentable<ViewState, Controller> {
+) : CoreActionDialogFragment<Controller, NavigateData, ViewModel>(layoutId), Contentable<ViewState, Controller> {
 
     override fun setupViewModel(viewModel: ViewModel) {
         super.setupViewModel(viewModel)
