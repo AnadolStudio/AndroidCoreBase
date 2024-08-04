@@ -6,12 +6,9 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.joda.time.DateTime
 
-val Long.toHours: Int get() = (this / 3_600_000).toInt()
-val Long.toMinutes: Int get() = (this / 60_000).toInt()
-val Long.toSeconds: Int get() = (this / 1_000).toInt()
-val Long.remainingMinutes: Int get() = this.toMinutes % 60
-val Long.remainingSeconds: Int get() = this.toSeconds % 60
-
+val Long.hours: Int get() = (this / 3600000).toInt()
+val Long.minutes: Int get() = ((this - hours * 3600000) / 60000).toInt()
+val Long.seconds: Int get() = ((this - hours * 3600000 - minutes * 60000) / 1000).toInt()
 
 fun String.safeParseDateTime(): DateTime? = tryOrNull { DateTime.parse(this) }
 
@@ -22,9 +19,9 @@ data class Time(
         val seconds: Int,
 ) : Parcelable {
     constructor(millis: Long) : this(
-            hours = millis.toHours,
-            minutes = millis.remainingMinutes,
-            seconds = millis.remainingSeconds,
+            hours = millis.hours,
+            minutes = millis.minutes,
+            seconds = millis.seconds,
     )
 
     @IgnoredOnParcel
@@ -37,8 +34,6 @@ data class Time(
     @IgnoredOnParcel
     val totalMinutes: Int = hours * 60 + minutes + seconds / 60
 
-    @IgnoredOnParcel
-    val totalSeconds: Int = hours * 3600 + minutes * 60 + seconds
 }
 
 private fun Int.toTimeNumber(): String = if (this < 10) "0$this" else "$this"

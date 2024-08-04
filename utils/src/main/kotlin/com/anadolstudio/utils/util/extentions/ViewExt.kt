@@ -13,16 +13,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 
-val View.centerX: Int get() = width / 2
-val View.centerY: Int get() = height / 2
-
-var View.scale: Float
-    set(value) {
-        scaleX = value
-        scaleY = value
-    }
-    get() = scaleX
-
 fun View.makeGone() {
     this.visibility = View.GONE
 }
