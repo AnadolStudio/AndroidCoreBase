@@ -12,6 +12,7 @@ val Long.toSeconds: Int get() = (this / 1_000).toInt()
 val Long.remainingMinutes: Int get() = this.toMinutes % 60
 val Long.remainingSeconds: Int get() = this.toSeconds % 60
 
+
 fun String.safeParseDateTime(): DateTime? = tryOrNull { DateTime.parse(this) }
 
 @Parcelize
@@ -38,7 +39,6 @@ data class Time(
 
     @IgnoredOnParcel
     val totalSeconds: Int = hours * 3600 + minutes * 60 + seconds
-
 }
 
 private fun Int.toTimeNumber(): String = if (this < 10) "0$this" else "$this"

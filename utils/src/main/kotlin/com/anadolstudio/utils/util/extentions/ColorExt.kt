@@ -7,6 +7,7 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.core.math.MathUtils
 
+
 private const val SIGN = "#"
 private const val COLOR_PATTERN = """[a-fA-F0-9]{6}"""
 
@@ -71,4 +72,3 @@ fun getColorByOffset(startColor: Int, endColor: Int, offset: Float): Int {
             (startB + deltaB * correctOffset).toInt(),
     )
 }
-
