@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.view.Gravity
-import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View
 import android.view.View.*
@@ -18,6 +17,7 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.anadolstudio.utils.util.extentions.makeGone
 import com.anadolstudio.utils.util.extentions.makeVisible
+import java.util.concurrent.TimeUnit
 
 object AnimateUtil {
     const val DURATION_SHORT: Long = 100
@@ -224,46 +224,28 @@ object AnimateUtil {
     fun View.scaleAnimationOnClick(
             onTouchScale: Float = REDUCE_SCALE_CLICK,
             defaultScale: Float = SCALE_DEFAULT,
-            action: () -> Unit
+            longPressDelayMillis: Long = TimeUnit.SECONDS.toMillis(1),
+            actionDown: (() -> Unit)? = null,
+            actionCancel: (() -> Unit)? = null,
+            onAnimationEnd: (() -> Unit)? = null,
+            onLongPress: (() -> Unit)? = null,
+            actionUp: () -> Unit,
     ) {
         scaleX = defaultScale
         scaleY = defaultScale
 
-        setOnTouchListener { view, event ->
-            view.scaleOnTouch(event, onTouchScale, defaultScale, action)
-
-            return@setOnTouchListener true
-        }
+        val listener = ScaleOnTouchListener(
+                onTouchScale = onTouchScale,
+                defaultScale = defaultScale,
+                actionDown = actionDown,
+                actionCancel = actionCancel,
+                onAnimationEnd = onAnimationEnd,
+                onLongPress = onLongPress,
+                longPressDelayMillis = longPressDelayMillis,
+                actionUp = actionUp
+        )
+        setOnTouchListener(listener::onTouchListener)
     }
-
-    fun View.scaleOnTouch(
-            event: MotionEvent,
-            onTouchScale: Float,
-            defaultScale: Float,
-            action: () -> Unit
-    ) = when (event.action) {
-        ACTION_DOWN -> scaleAnimation(onTouchScale)
-        ACTION_UP -> scaleAnimation(defaultScale, getActionOrNull(event, action))
-        ACTION_CANCEL -> scaleAnimation(defaultScale)
-        else -> Unit
-    }
-
-    private fun View.getActionOrNull(event: MotionEvent, action: (() -> Unit)): (() -> Unit)? {
-        if (measuredWidth == 0 || measuredHeight == 0) return action
-
-        val inBounds = event.x.toInt() in 0..measuredWidth
-                && event.y.toInt() in 0..measuredHeight
-
-        return if (inBounds) action else null
-    }
-
-    private fun View.scaleAnimation(scale: Float, action: (() -> Unit)? = null) = animate()
-            .scaleX(scale)
-            .scaleY(scale)
-            .setDuration(DURATION_EXTRA_SHORT)
-            .withStartAction { action?.invoke() }
-            .setInterpolator(DecelerateInterpolator())
-            .start()
 
     fun blinkAnimation(): Animation = AlphaAnimation(1f, 0f).apply {
         duration = 1000

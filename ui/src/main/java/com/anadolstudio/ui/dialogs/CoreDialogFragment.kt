@@ -1,4 +1,4 @@
-package com.anadolstudio.core.presentation.dialogs.simple
+package com.anadolstudio.ui.dialogs
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
