@@ -36,4 +36,13 @@
         <item name="rippleColor">@color/colorRipple</item>
     </style>
 
+    <style name="FullscreenDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
 </resources>
