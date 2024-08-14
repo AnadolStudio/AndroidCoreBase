@@ -37,6 +37,8 @@ dependencies {
     implementation(project(":core:view"))
     implementation(project(":core:paginator"))
     implementation(project(":core:utils"))
+    implementation(project(":core:analytics"))
+
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

@@ -20,8 +20,10 @@ include ':core:utils'
 include ':core:ui'
 include ':core:paginator'
 include ':core:view'
+include ':core:analytics'
 
 project(':core:ui').projectDir = new File(rootDir, '/ui')
 project(':core:view').projectDir = new File(rootDir, '/view')
 project(':core:paginator').projectDir = new File(rootDir, '/paginator')
 project(':core:utils').projectDir = new File(rootDir, '/utils')
+project(':core:analytics').projectDir = new File(rootDir, '/analytics')

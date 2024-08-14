@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analytics_screen_name" formatted="false">screen_name</string>
+    <string name="analytics_screen_view" formatted="false">screen_view</string>
+    <string name="analytics_on_click" formatted="false">on_click</string>
+    <string name="analytics_item_name" formatted="false">item_name</string>
+
+</resources>
