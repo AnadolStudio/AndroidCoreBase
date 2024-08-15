@@ -4,6 +4,7 @@ import android.app.UiModeManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -18,10 +19,18 @@ abstract class CoreFragment(@LayoutRes private val layoutId: Int) : Fragment(lay
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = onBackPressed()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
         if (isStatusBarByNightMode) {
             isDarkStatusBarIcons = getCurrentNightMode(resources) == UiModeManager.MODE_NIGHT_NO
         }
     }
+
+    abstract fun onBackPressed()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

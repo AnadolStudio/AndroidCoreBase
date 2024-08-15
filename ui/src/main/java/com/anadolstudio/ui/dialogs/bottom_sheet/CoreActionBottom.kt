@@ -3,21 +3,22 @@ package com.anadolstudio.ui.dialogs.bottom_sheet
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
-import com.anadolstudio.ui.viewmodel.livedata.SingleCustomEvent
-import com.anadolstudio.ui.viewmodel.livedata.SingleError
-import com.anadolstudio.ui.viewmodel.livedata.SingleEvent
-import com.anadolstudio.ui.viewmodel.livedata.SingleMessage
-import com.anadolstudio.ui.navigation.NavigationEvent
 import com.anadolstudio.ui.Eventable
 import com.anadolstudio.ui.Navigatable
-import com.anadolstudio.ui.UiEntity
 import com.anadolstudio.ui.SingleErrorSnack
 import com.anadolstudio.ui.SingleErrorToast
 import com.anadolstudio.ui.SingleMessageSnack
 import com.anadolstudio.ui.SingleMessageToast
+import com.anadolstudio.ui.UiEntity
+import com.anadolstudio.ui.navigation.NavigationEvent
 import com.anadolstudio.ui.viewmodel.BaseController
 import com.anadolstudio.ui.viewmodel.CoreActionViewModel
+import com.anadolstudio.ui.viewmodel.livedata.SingleCustomEvent
+import com.anadolstudio.ui.viewmodel.livedata.SingleError
+import com.anadolstudio.ui.viewmodel.livedata.SingleEvent
+import com.anadolstudio.ui.viewmodel.livedata.SingleMessage
 import com.anadolstudio.ui.viewmodel.observe
 
 abstract class CoreActionBottom<
@@ -78,4 +79,6 @@ abstract class CoreActionBottom<
     /* Navigatable Implementation region*/
     override fun handleNavigationEvent(event: NavigationEvent<NavigateData>) = navigatableDelegate.handleNavigationEvent(event)
     /* Navigatable Implementation end region*/
+
+    override fun onBackPressed() = controller.onBackClicked()
 }

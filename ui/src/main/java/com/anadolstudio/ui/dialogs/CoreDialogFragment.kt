@@ -1,11 +1,13 @@
 package com.anadolstudio.ui.dialogs
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.view.WindowInsetsControllerCompat
@@ -16,6 +18,16 @@ abstract class CoreDialogFragment(@LayoutRes private val layoutId: Int) : AppCom
     protected open var isStatusBarByNightMode: Boolean = true
 
     abstract fun getDialogTag(): String
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = onBackPressed()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    abstract fun onBackPressed()
 
     override fun onStart() {
         super.onStart()

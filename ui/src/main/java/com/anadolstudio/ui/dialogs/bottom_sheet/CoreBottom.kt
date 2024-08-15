@@ -1,10 +1,12 @@
 package com.anadolstudio.ui.dialogs.bottom_sheet
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -18,6 +20,16 @@ abstract class CoreBottom(@LayoutRes private val layoutId: Int) : BottomSheetDia
     abstract fun getDialogTag(): String
 
     protected open val isRounded = true
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = onBackPressed()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    abstract fun onBackPressed()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

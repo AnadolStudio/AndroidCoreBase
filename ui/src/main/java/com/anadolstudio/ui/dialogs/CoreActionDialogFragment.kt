@@ -73,4 +73,6 @@ abstract class CoreActionDialogFragment<
     /* Navigatable Implementation region*/
     override fun handleNavigationEvent(event: NavigationEvent<NavigateData>) = navigatableDelegate.handleNavigationEvent(event)
     /* Navigatable Implementation end region*/
+
+    override fun onBackPressed() = controller.onBackClicked()
 }
