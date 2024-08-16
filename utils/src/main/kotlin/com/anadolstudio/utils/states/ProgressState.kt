@@ -1,5 +1,7 @@
 package com.anadolstudio.utils.states
 
+import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
@@ -31,8 +33,8 @@ sealed class ProgressState {
  * Между oldState и newState устанавливается промежуточное состояние из initRefreshableState()
  */
 fun LoadingContext.toEndState(
-    oldState: ProgressState,
-    newState: ProgressState
+        oldState: ProgressState,
+        newState: ProgressState
 ): ProgressState = when (this) {
     LoadingContext.INIT_LOADING, LoadingContext.RETRY -> {
         if (newState is ProgressState.Content || newState is ProgressState.Error) newState else ProgressState.Error()
@@ -46,7 +48,7 @@ fun LoadingContext.toEndState(
 fun LoadingContext.toContent(oldState: ProgressState): ProgressState = toEndState(oldState, ProgressState.Content)
 
 fun LoadingContext.toError(oldState: ProgressState, error: Throwable): ProgressState =
-    toEndState(oldState, ProgressState.Error(error))
+        toEndState(oldState, ProgressState.Error(error))
 
 fun LoadingContext.toStartState(): ProgressState = when (this) {
     LoadingContext.INIT_LOADING -> ProgressState.Loading
@@ -55,26 +57,80 @@ fun LoadingContext.toStartState(): ProgressState = when (this) {
 }
 
 fun <T> Single<T>.subscribeWithUpdatingState(
-    previousState: ProgressState,
-    loadingContext: LoadingContext,
-    onNewState: (ProgressState) -> Unit,
-    onSuccess: (T) -> Unit,
-    onError: (Throwable) -> Unit
+        previousState: ProgressState,
+        loadingContext: LoadingContext,
+        onNewState: (ProgressState) -> Unit,
+        onSuccess: (T) -> Unit,
+        onError: (Throwable) -> Unit
 ): Disposable? = this
-    .doOnSubscribe { onNewState.invoke(loadingContext.toStartState()) }
-    .run {
-        if (loadingContext == LoadingContext.RETRY && previousState is ProgressState.Content) {
-            null
-        } else {
-            subscribe(
-                {
-                    onSuccess.invoke(it)
-                    onNewState.invoke(loadingContext.toContent(previousState))
-                },
-                { error ->
-                    onError.invoke(error)
-                    onNewState.invoke(loadingContext.toError(previousState, error))
-                }
-            )
+        .doOnSubscribe { onNewState.invoke(loadingContext.toStartState()) }
+        .run {
+            if (loadingContext == LoadingContext.RETRY && previousState is ProgressState.Content) {
+                null
+            } else {
+                subscribe(
+                        {
+                            onSuccess.invoke(it)
+                            onNewState.invoke(loadingContext.toContent(previousState))
+                        },
+                        { error ->
+                            onError.invoke(error)
+                            onNewState.invoke(loadingContext.toError(previousState, error))
+                        }
+                )
+            }
         }
-    }
+
+fun <T> Observable<T>.subscribeWithUpdatingState(
+        previousState: ProgressState,
+        loadingContext: LoadingContext,
+        onNewState: (ProgressState) -> Unit,
+        onNext: (T) -> Unit,
+        onSuccess: () -> Unit,
+        onError: (Throwable) -> Unit
+): Disposable? = this
+        .doOnSubscribe { onNewState.invoke(loadingContext.toStartState()) }
+        .run {
+            if (loadingContext == LoadingContext.RETRY && previousState is ProgressState.Content) {
+                null
+            } else {
+                subscribe(
+                        {
+                            onNext.invoke(it)
+                        },
+                        { error ->
+                            onError.invoke(error)
+                            onNewState.invoke(loadingContext.toError(previousState, error))
+                        },
+                        {
+                            onSuccess.invoke()
+                            onNewState.invoke(loadingContext.toContent(previousState))
+                        }
+                )
+            }
+        }
+
+fun Completable.subscribeWithUpdatingState(
+        previousState: ProgressState,
+        loadingContext: LoadingContext,
+        onNewState: (ProgressState) -> Unit,
+        onSuccess: () -> Unit,
+        onError: (Throwable) -> Unit
+): Disposable? = this
+        .doOnSubscribe { onNewState.invoke(loadingContext.toStartState()) }
+        .run {
+            if (loadingContext == LoadingContext.RETRY && previousState is ProgressState.Content) {
+                null
+            } else {
+                subscribe(
+                        {
+                            onSuccess.invoke()
+                            onNewState.invoke(loadingContext.toContent(previousState))
+                        },
+                        { error ->
+                            onError.invoke(error)
+                            onNewState.invoke(loadingContext.toError(previousState, error))
+                        }
+                )
+            }
+        }

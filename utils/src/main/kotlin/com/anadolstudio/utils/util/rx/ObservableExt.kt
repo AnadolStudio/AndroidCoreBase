@@ -4,6 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.disposables.Disposable
@@ -64,3 +65,10 @@ fun Completable.smartSubscribe(
 
 fun <T> Maybe<T>.schedulersIoToMain(): Maybe<T> = subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
+fun <T : Any> observableBy(action: ObservableEmitter<T>.() -> Unit): Observable<T> = Observable.create { emitter ->
+    try {
+        action.invoke(emitter)
+    } catch (ex: Exception) {
+        emitter.onError(ex)
+    }
+}
