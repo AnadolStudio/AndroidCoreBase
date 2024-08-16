@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anadolstudio.utils.util.common.dpToPx
 import kotlin.math.abs
 
-class ScrollListener(
+class DeltaScrollListener(
         val delta: Int = DELTA,
         val onScrollToTop: (() -> Unit)? = null,
         val onScrollToBottom: (() -> Unit)? = null
