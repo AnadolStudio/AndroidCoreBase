@@ -21,4 +21,12 @@ abstract class CoreContentViewModel<State : Any, NavigateData : Any>(
         }
     }
 
+    protected fun postUpdateState(forceUpdate: Boolean = false, action: State.() -> State) {
+        val newState = action.invoke(state)
+
+        if (newState != state || forceUpdate) {
+            _stateLiveData.postValue(newState)
+        }
+    }
+
 }
