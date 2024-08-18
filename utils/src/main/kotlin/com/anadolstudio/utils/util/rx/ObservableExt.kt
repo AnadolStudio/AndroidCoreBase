@@ -12,6 +12,8 @@ import io.reactivex.schedulers.Schedulers
 
 fun <T> Observable<T>.schedulersIoToMain(): Observable<T> = subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
+fun <T> Observable<T>.schedulersComputationToMain(): Observable<T> = subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+
 @CheckReturnValue
 fun <T> Observable<T>.smartSubscribe(
         isSchedulersIoToMain: Boolean = true,

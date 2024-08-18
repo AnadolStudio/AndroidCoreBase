@@ -27,6 +27,8 @@ fun <T : Any> quickSingleFrom(action: () -> T): Single<T> = singleFrom(action).s
 
 fun <T> Single<T>.schedulersIoToMain(): Single<T> = subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
+fun <T> Single<T>.schedulersComputationToMain(): Single<T> = subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+
 fun <T> Single<T>.smartSubscribe(
         isSchedulersIoToMain: Boolean = true,
         onSubscribe: (() -> Unit)? = null,
