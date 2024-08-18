@@ -35,14 +35,14 @@ fun createClickableSpan(onClick: (View) -> Unit, @ColorInt color: Int, typeface:
     }
 }
 
-fun String.createSpannableString(query: String, ignoreRegister: Boolean, span: CharacterStyle): SpannableString {
+fun String.createSpannableString(query: String, ignoreCase: Boolean, provideSpan: () -> List<CharacterStyle>): SpannableString {
     val spannableString = SpannableString(this)
     if (query.isEmpty()) return spannableString
 
-    val list = getAllFirstAndLastIndexesByQuery(query, ignoreRegister)
+    val list = getAllFirstAndLastIndexesByQuery(query, ignoreCase)
 
     list.forEach { (first, last) ->
-        spannableString.setSpan(span, first, last, 0)
+        provideSpan.invoke().forEach { span -> spannableString.setSpan(span, first, last, 0) }
     }
 
     return spannableString

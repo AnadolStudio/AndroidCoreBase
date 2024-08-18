@@ -29,8 +29,8 @@ fun String.getAllFirstIndexesByQuery(query: String, ignoreRegister: Boolean = fa
     return firstIndexes
 }
 
-fun String.getAllFirstAndLastIndexesByQuery(query: String, ignoreRegister: Boolean = false): List<Pair<Int, Int>> {
-    return getAllFirstIndexesByQuery(query, ignoreRegister)
+fun String.getAllFirstAndLastIndexesByQuery(query: String, ignoreCase: Boolean = false): List<Pair<Int, Int>> {
+    return getAllFirstIndexesByQuery(query, ignoreCase)
             .map { firstIndex ->
                 Pair(firstIndex, firstIndex + query.length)
             }

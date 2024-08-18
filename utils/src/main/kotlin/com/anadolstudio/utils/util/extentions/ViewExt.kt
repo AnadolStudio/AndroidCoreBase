@@ -102,30 +102,30 @@ var View.scale: Float
     get() = scaleX
 
 fun ImageView.setImageFromUrl(
-    url: String?,
-    @DrawableRes errorId: Int? = null,
-    @DrawableRes placeholderId: Int? = null,
+        url: String?,
+        @DrawableRes errorId: Int? = null,
+        @DrawableRes placeholderId: Int? = null,
 ) {
     Glide
-        .with(context)
-        .load(url)
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .apply {
-            errorId?.let(this::error)
-            placeholderId?.let(this::placeholder)
-        }
-        .transition(
-            DrawableTransitionOptions.withCrossFade()
-                // Для фикса бага с наложением плейсхолдера и изображения
-                // Подробности: http://bumptech.github.io/glide/doc/transitions.html#cross-fading-with-placeholders-and-transparent-images
-                .crossFade(
-                    DrawableCrossFadeFactory
-                        .Builder()
-                        .setCrossFadeEnabled(true)
-                        .build()
-                )
-        )
-        .into(this)
+            .with(context)
+            .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .apply {
+                errorId?.let(this::error)
+                placeholderId?.let(this::placeholder)
+            }
+            .transition(
+                    DrawableTransitionOptions.withCrossFade()
+                            // Для фикса бага с наложением плейсхолдера и изображения
+                            // Подробности: http://bumptech.github.io/glide/doc/transitions.html#cross-fading-with-placeholders-and-transparent-images
+                            .crossFade(
+                                    DrawableCrossFadeFactory
+                                            .Builder()
+                                            .setCrossFadeEnabled(true)
+                                            .build()
+                            )
+            )
+            .into(this)
 }
 
 fun View.setKeyboardFocusViewImmediate() {
@@ -138,6 +138,11 @@ fun View.setKeyboardFocusViewImmediateFromDialog() {
     requestFocus()
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+}
+
+fun View.showKeyboard() {
+    setKeyboardFocusViewImmediate()
+    setKeyboardFocusViewImmediateFromDialog()
 }
 
 fun View.hideKeyboard() {
