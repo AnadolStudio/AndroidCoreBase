@@ -23,7 +23,6 @@ class LineProgressView @JvmOverloads constructor(
         const val MIN_TOTAL_PROGRESS = 1
     }
 
-
     var currentProgress: Int = 0
         set(value) {
             field = minOf(value, totalProgress)
@@ -47,8 +46,8 @@ class LineProgressView @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.LineProgressView, defStyleAttr, defStyleRes) {
             totalProgress = getInt(R.styleable.LineProgressView_totalProgress, MIN_TOTAL_PROGRESS)
             currentProgress = getInt(R.styleable.LineProgressView_currentProgress, 0)
-            progressPaint.setupPaint(getInt(R.styleable.LineProgressView_colorForeground, Color.WHITE))
-            defaultPaint.setupPaint(getInt(R.styleable.LineProgressView_colorBackground, Color.GRAY))
+            progressPaint.setupPaint(getInt(R.styleable.LineProgressView_color, Color.WHITE))
+            defaultPaint.setupPaint(getInt(R.styleable.LineProgressView_backgroundColor, Color.GRAY))
         }
     }
 

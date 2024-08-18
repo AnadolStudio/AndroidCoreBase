@@ -2,13 +2,23 @@
 <resources>
 
     <attr name="src" format="reference" />
-    <attr name="title" format="string" />
+    <attr name="srcSide" format="dimension" />
+
+    <attr name="title" format="string|reference" />
     <attr name="description" format="string|reference" />
     <attr name="tint" format="color|reference" />
+
     <attr name="textAppearance" format="reference" />
+    <attr name="titleTextAppearance" format="reference" />
+    <attr name="descriptionTextAppearance" format="reference" />
+
     <attr name="iconTint" format="color|reference" />
+    <attr name="text" format="string|reference" />
     <attr name="colorForeground" format="color|reference" />
     <attr name="colorBackground" format="color|reference" />
+    <attr name="backgroundColor" format="color|reference" />
+    <attr name="disableBackgroundColor" format="color|reference" />
+    <attr name="disableForegroundColor" format="color|reference" />
 
     <declare-styleable name="ToolbarIconButton">
         <attr name="src" />
@@ -26,11 +36,11 @@
 
     <declare-styleable name="EmptyStubView">
         <attr name="src" />
-        <attr name="srcSide" format="dimension" />
+        <attr name="srcSide" />
         <attr name="description" />
         <attr name="title" />
-        <attr name="titleTextAppearance" format="reference" />
-        <attr name="descriptionTextAppearance" format="reference" />
+        <attr name="titleTextAppearance" />
+        <attr name="descriptionTextAppearance" />
     </declare-styleable>
 
     <declare-styleable name="BottomTopLine">
@@ -40,8 +50,34 @@
     <declare-styleable name="LineProgressView">
         <attr name="currentProgress" format="integer" />
         <attr name="totalProgress" format="integer" />
-        <attr name="colorForeground" />
-        <attr name="colorBackground" />
+        <attr name="color" />
+        <attr name="backgroundColor" />
+    </declare-styleable>
+
+    <declare-styleable name="BaseButton">
+        <attr name="text" />
+        <attr name="tint" />
+        <attr name="backgroundColor" />
+        <attr name="disableBackgroundColor" />
+        <attr name="disableForegroundColor" />
+        <attr name="paddingTop" format="dimension" />
+        <attr name="paddingBottom" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ErrorView">
+        <attr name="src" />
+        <attr name="srcSide" />
+        <attr name="title" />
+        <attr name="titleTextAppearance" />
+        <attr name="descriptionTextAppearance" />
+        <attr name="buttonVisible" format="boolean"/>
+
+        <attr name="buttonText" format="string|reference" />
+        <attr name="buttonTint" format="color|reference" />
+        <attr name="buttonBackgroundColor" format="color|reference" />
+        <attr name="buttonDisableBackgroundColor" format="color|reference" />
+        <attr name="buttonDisableForegroundColor" format="color|reference" />
+
     </declare-styleable>
 
 </resources>

@@ -6,4 +6,7 @@
     <color name="colorRipple">#bdbdbd</color>
     <color name="divider">#d3d3d3</color>
 
+    <color name="disableBackground">#4F4F4F</color>
+    <color name="disableForeground">#A1A1A1</color>
+
 </resources>

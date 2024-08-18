@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.appcompat.widget.LinearLayoutCompat">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="@dimen/padding_main"
+        android:background="@drawable/item_ripple_oval_without_mask"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="@dimen/radius_xlarge"
+        app:cardElevation="@dimen/elevation_normal">
+
+        <FrameLayout
+            android:id="@+id/progressContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_main"
+            android:layout_gravity="start|center_vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ProgressBar
+                android:id="@+id/progressView"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/Caption16"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorAccent"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="@dimen/padding_main"
+            android:lines="1"
+            tools:text="@string/data" />
+
+    </androidx.cardview.widget.CardView>
+
+</merge>
