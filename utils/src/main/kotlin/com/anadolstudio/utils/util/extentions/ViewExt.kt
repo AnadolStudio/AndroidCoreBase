@@ -28,7 +28,7 @@ fun View.makeInvisible() {
     this.visibility = View.INVISIBLE
 }
 
-fun View.setSmartPadding(
+fun View.changePadding(
         start: Int? = null,
         top: Int? = null,
         end: Int? = null,
