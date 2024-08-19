@@ -1,5 +1,7 @@
 package com.anadolstudio.utils.util.extentions
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,3 +27,11 @@ fun Context.hasAllPermissions(permissions: Array<String>): Boolean = permissions
 fun Context.hasAnyPermissions(permissions: Array<String>): Boolean = permissions.any(this::hasPermission)
 
 fun Context.getCompatDrawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(this, id)
+
+fun Context.copyText(text: String, label: String = text): Boolean {
+    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+    val clip = ClipData.newPlainText(label, text)
+
+    return clipboard?.setPrimaryClip(clip) != null
+}
+
