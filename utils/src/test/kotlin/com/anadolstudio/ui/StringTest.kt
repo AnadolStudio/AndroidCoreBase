@@ -1,6 +1,7 @@
 package com.anadolstudio.ui
 
 import com.anadolstudio.utils.util.extentions.getAllFirstIndexesByQuery
+import com.anadolstudio.utils.util.extentions.getWords
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -21,7 +22,7 @@ class StringTest {
         val query = ""
         val indexes = TEXT.getAllFirstIndexesByQuery(query)
 
-        assertEquals(indexes, emptyList<Int>())
+        assertEquals(emptyList<Int>(), indexes)
     }
 
     @Test
@@ -29,7 +30,7 @@ class StringTest {
         val query = "бра"
         val indexes = TEXT.getAllFirstIndexesByQuery(query)
 
-        assertEquals(indexes, listOf(2, 8, 31))
+        assertEquals(listOf(2, 8, 31), indexes)
     }
 
     @Test
@@ -37,7 +38,7 @@ class StringTest {
         val query = "бра"
         val indexes = TEXT.getAllFirstIndexesByQuery(query)
 
-        assertNotEquals(indexes, listOf(1))
+        assertNotEquals(listOf(1), indexes)
     }
 
     @Test
@@ -46,6 +47,15 @@ class StringTest {
 
         val indexes = TEXT.getAllFirstIndexesByQuery(query, ignoreRegister = true)
 
-        assertEquals(indexes, listOf(2, 8, 31, 36))
+        assertEquals(listOf(2, 8, 31, 36), indexes)
     }
+
+    @Test
+    fun `find words -- is correct`() {
+        val query = "Бра, Bra - Бра1224!Low _"
+        val words = query.getWords()
+
+        assertEquals(listOf("Бра", "Bra", "Бра1224", "Low"), words)
+    }
+
 }

@@ -39,9 +39,13 @@ fun String.getAllFirstIndexesByQuery(query: String, ignoreRegister: Boolean = fa
     return firstIndexes
 }
 
-fun String.getAllFirstAndLastIndexesByQuery(query: String, ignoreCase: Boolean = false): List<Pair<Int, Int>> {
-    return getAllFirstIndexesByQuery(query, ignoreCase)
-            .map { firstIndex ->
-                Pair(firstIndex, firstIndex + query.length)
-            }
+fun String.getAllFirstAndLastIndexesByQuery(
+        query: String,
+        ignoreCase: Boolean = false
+): List<Pair<Int, Int>> = getAllFirstIndexesByQuery(query, ignoreCase).map { firstIndex ->
+    Pair(firstIndex, firstIndex + query.length)
 }
+
+fun String.getWords(): List<String> = split(
+        Regex("[^А-Яа-яA-Za-z0-9]")
+).filter { it.isNotBlank() }
