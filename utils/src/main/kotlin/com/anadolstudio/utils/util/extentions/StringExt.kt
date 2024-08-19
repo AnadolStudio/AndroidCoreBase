@@ -1,5 +1,15 @@
 package com.anadolstudio.utils.util.extentions
 
+fun Float.shortFormat(): String = String.format("%.1f", this).replace("[.,]0".toRegex(), "")
+
+private const val ELLIPSIS = "…"
+
+fun String.ellipsize(maxLength: Int): String = if (length > maxLength) {
+    take(maxLength - 1).trim().plus(ELLIPSIS)
+} else {
+    this
+}
+
 fun String.ifNotEmpty(action: () -> String): String = if (isNotEmpty()) plus(action.invoke()) else this
 
 fun String.nullIfEmpty(): String? = ifEmpty { null }
