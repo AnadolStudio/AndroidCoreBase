@@ -48,6 +48,21 @@ fun String.createSpannableString(query: String, ignoreCase: Boolean, provideSpan
     return spannableString
 }
 
+fun String.createSpannableString(queryList: List<String>, ignoreCase: Boolean, provideSpan: () -> List<CharacterStyle>): SpannableString {
+    val spannableString = SpannableString(this)
+    if (queryList.isEmpty()) return spannableString
+
+    val list = queryList
+            .map { query -> getAllFirstAndLastIndexesByQuery(query, ignoreCase) }
+            .flatten()
+
+    list.forEach { (first, last) ->
+        provideSpan.invoke().forEach { span -> spannableString.setSpan(span, first, last, 0) }
+    }
+
+    return spannableString
+}
+
 fun String.formatAsHtml(): Spanned? = when (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
     true -> Html.fromHtml(this, Html.FROM_HTML_MODE_COMPACT)
     false -> Html.fromHtml(this)
