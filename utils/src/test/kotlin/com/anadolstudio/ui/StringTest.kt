@@ -2,6 +2,7 @@ package com.anadolstudio.ui
 
 import com.anadolstudio.utils.util.extentions.getAllFirstIndexesByQuery
 import com.anadolstudio.utils.util.extentions.getWords
+import com.anadolstudio.utils.util.extentions.getWordsWithSimilarSimilar
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -56,6 +57,14 @@ class StringTest {
         val words = query.getWords()
 
         assertEquals(listOf("Бра", "Bra", "Бра1224", "Low"), words)
+    }
+
+    @Test
+    fun `find words with similar words -- is correct`() {
+        val query = "Система включает в себя"
+        val words = query.getWordsWithSimilarSimilar()
+
+        assertEquals(listOf("Система", "Систем", "включает", "включ", "в", "себя"), words)
     }
 
 }

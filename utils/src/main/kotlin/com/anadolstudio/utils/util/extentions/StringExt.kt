@@ -49,3 +49,13 @@ fun String.getAllFirstAndLastIndexesByQuery(
 fun String.getWords(): List<String> = split(
         Regex("[^А-Яа-яA-Za-z0-9]")
 ).filter { it.isNotBlank() }
+
+fun String.getWordsWithSimilarSimilar(): List<String> = split(Regex("[^А-Яа-яA-Za-z0-9]"))
+        .filter { it.isNotBlank() }
+        .flatMap { word ->
+            when {
+                word.length > 7 -> listOf(word) + word.dropLast(3)
+                word.length > 5 -> listOf(word) + word.dropLast(1)
+                else -> listOf(word)
+            }
+        }
