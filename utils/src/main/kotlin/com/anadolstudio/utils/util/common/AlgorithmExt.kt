@@ -19,6 +19,8 @@ fun <T : Any?> Collection<T>.removeDuplicateAndSortedByRepetition(): List<T> {
 
 fun <ListType : Any?> List<ListType>.removeDuplicateAndSortedByNumberOfRepetitions(
         queryList: Set<String>,
+        ignoreCase: Boolean = false,
+        limitForDropIfHasBigger: Int = 0,
         mapper: (ListType) -> String
 ): List<ListType> {
     val map = mutableMapOf<ListType, Int>()
@@ -27,16 +29,26 @@ fun <ListType : Any?> List<ListType>.removeDuplicateAndSortedByNumberOfRepetitio
         map[it] = 0
     }
 
+    // TODO query могут содержать друг друга. Можно добавить приоритет
     map.keys.forEach {
         val mappedData = mapper.invoke(it)
 
         queryList.forEach { key ->
-            if (mappedData.contains(key)) {
+            if (mappedData.contains(key, ignoreCase)) {
                 val previousCount = map[it] ?: 0
                 map[it] = previousCount + 1
             }
         }
     }
 
-    return map.keys.sortedByDescending { value -> map[value] }
+    val result = if ((map.values.maxOrNull() ?: 0) > limitForDropIfHasBigger) {
+        map.filterValues { count -> count > limitForDropIfHasBigger }
+    } else {
+        map
+    }
+
+    return result.keys.sortedByDescending { value ->
+        map[value]
+    }
+
 }
