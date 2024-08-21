@@ -153,8 +153,7 @@ fun View.hideKeyboard() {
 fun View.hideKeyboardWithClearFocus() {
     clearFocus()
 
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(windowToken, 0)
+    hideKeyboard()
 }
 
 fun Activity.hideKeyboard() {

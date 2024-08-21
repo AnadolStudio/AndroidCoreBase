@@ -84,6 +84,7 @@ abstract class BaseAppBarBehavior<RestoreState : BaseSavedState, Binding : ViewB
     override fun onSaveInstanceState(
             parent: CoordinatorLayout, abl: AppBarLayout
     ): Parcelable? = super.onSaveInstanceState(parent, abl)?.let { supperState ->
+        if (_binding == null) initView(parent)
         onSaveState(binding, supperState)
     }
 
