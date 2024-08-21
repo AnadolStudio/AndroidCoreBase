@@ -1,5 +1,6 @@
 package com.anadolstudio.utils.util.extentions
 
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -35,3 +36,20 @@ fun Context.copyText(text: String, label: String = text): Boolean {
     return clipboard?.setPrimaryClip(clip) != null
 }
 
+fun Context.shareLink(url: String) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/*"
+        putExtra(Intent.EXTRA_TEXT, url)
+    }
+
+    val chooser = Intent.createChooser(intent, null).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+
+    try {
+        startActivity(chooser)
+    } catch (ex: ActivityNotFoundException) {
+        ex.printStackTrace()
+    }
+
+}
