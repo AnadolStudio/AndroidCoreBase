@@ -9,6 +9,8 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
+const val MINI_VIBRATION_DURATION = 50L
+
 @RequiresPermission(Manifest.permission.VIBRATE)
 fun Context.startSimpleVibration(duration: Long = 200) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -40,11 +42,9 @@ fun Context.cancelVibrate() {
     (this.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator)?.cancel()
 }
 
-private const val LONG_TAP_VIBRATION_DURATION = 50L
-
 @RequiresPermission(Manifest.permission.VIBRATE)
 fun View.vibrationLongClickListener(action: () -> Unit) = setOnLongClickListener {
-    context.startSimpleVibration(LONG_TAP_VIBRATION_DURATION)
+    context.startSimpleVibration(MINI_VIBRATION_DURATION)
     action.invoke()
 
     true
