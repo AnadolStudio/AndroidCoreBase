@@ -3,7 +3,6 @@ package com.anadolstudio.ui.dialogs.bottom_sheet
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import com.anadolstudio.ui.Eventable
 import com.anadolstudio.ui.Navigatable
@@ -48,7 +47,9 @@ abstract class CoreActionBottom<
         observe(viewModel.navigation) { navigationEvent -> handleNavigationEvent(navigationEvent) }
     }
 
-    protected abstract fun createViewModel(): ViewModel
+    protected open fun createViewModel(): ViewModel = createViewModelLazy().value
+
+    protected abstract fun createViewModelLazy(): Lazy<ViewModel>
 
     override fun provideContext(): Context = requireContext()
 

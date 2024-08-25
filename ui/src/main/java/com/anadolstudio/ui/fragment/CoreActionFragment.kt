@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import com.anadolstudio.ui.navigation.NavigationEvent
 import com.anadolstudio.ui.Eventable
 import com.anadolstudio.ui.Navigatable
-import com.anadolstudio.ui.UiEntity
 import com.anadolstudio.ui.SingleErrorSnack
 import com.anadolstudio.ui.SingleErrorToast
 import com.anadolstudio.ui.SingleMessageSnack
 import com.anadolstudio.ui.SingleMessageToast
+import com.anadolstudio.ui.UiEntity
+import com.anadolstudio.ui.navigation.NavigationEvent
 import com.anadolstudio.ui.viewmodel.BaseController
 import com.anadolstudio.ui.viewmodel.CoreActionViewModel
 import com.anadolstudio.ui.viewmodel.livedata.SingleCustomEvent
@@ -49,7 +49,9 @@ abstract class CoreActionFragment<
         observe(viewModel.navigation) { navigationEvent -> handleNavigationEvent(navigationEvent) }
     }
 
-    protected abstract fun createViewModel(): ViewModel
+    protected open fun createViewModel(): ViewModel = createViewModelLazy().value
+
+    protected abstract fun createViewModelLazy(): Lazy<ViewModel>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(layoutId, container, false)

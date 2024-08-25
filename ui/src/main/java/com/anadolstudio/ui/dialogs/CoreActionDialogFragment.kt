@@ -35,14 +35,21 @@ abstract class CoreActionDialogFragment<
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel(viewModel)
+        initView()
     }
+
+    protected open fun initView() = Unit
+
+    override fun getDialogTag(): String = this::class.simpleName.toString()
 
     protected open fun setupViewModel(viewModel: ViewModel) {
         observe(viewModel.event) { singleEvent -> handleEvent(singleEvent) }
         observe(viewModel.navigation) { navigationEvent -> handleNavigationEvent(navigationEvent) }
     }
 
-    protected abstract fun createViewModel(): ViewModel
+    protected open fun createViewModel(): ViewModel = createViewModelLazy().value
+
+    protected abstract fun createViewModelLazy(): Lazy<ViewModel>
 
     override fun provideContext(): Context = requireContext()
 
