@@ -32,9 +32,9 @@ fun <T> Single<T>.schedulersComputationToMain(): Single<T> = subscribeOn(Schedul
 fun <T> Single<T>.smartSubscribe(
         isSchedulersIoToMain: Boolean = true,
         onSubscribe: (() -> Unit)? = null,
-        onSuccess: ((T) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onFinally: (() -> Unit)? = null,
+        onSuccess: ((T) -> Unit),
 ): Disposable {
     val single = if (isSchedulersIoToMain) this.schedulersIoToMain() else this
 
@@ -42,7 +42,7 @@ fun <T> Single<T>.smartSubscribe(
             .doOnSubscribe { onSubscribe?.invoke() }
             .subscribe(
                     { data ->
-                        onSuccess?.invoke(data)
+                        onSuccess.invoke(data)
                         onFinally?.invoke()
                     },
                     { error ->

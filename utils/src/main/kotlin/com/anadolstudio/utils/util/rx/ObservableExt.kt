@@ -17,16 +17,16 @@ fun <T> Observable<T>.schedulersComputationToMain(): Observable<T> = subscribeOn
 @CheckReturnValue
 fun <T> Observable<T>.smartSubscribe(
         isSchedulersIoToMain: Boolean = true,
-        onSuccess: ((T) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onComplete: (() -> Unit)? = null,
-        onFinally: (() -> Unit)? = null
+        onFinally: (() -> Unit)? = null,
+        onSuccess: ((T) -> Unit)
 ): Disposable {
     val observable = if (isSchedulersIoToMain) this.schedulersIoToMain() else this
 
     return observable.subscribe(
             { data ->
-                onSuccess?.invoke(data)
+                onSuccess.invoke(data)
                 onFinally?.invoke()
             },
             { error ->
@@ -45,9 +45,9 @@ fun Completable.schedulersIoToMain(): Completable = subscribeOn(Schedulers.io())
 fun Completable.smartSubscribe(
         isSchedulersIoToMain: Boolean = true,
         onSubscribe: (() -> Unit)? = null,
-        onComplete: (() -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
-        onFinally: (() -> Unit)? = null
+        onFinally: (() -> Unit)? = null,
+        onComplete: (() -> Unit)
 ): Disposable {
     val completable = if (isSchedulersIoToMain) this.schedulersIoToMain() else this
 
@@ -55,7 +55,7 @@ fun Completable.smartSubscribe(
             .doOnSubscribe { onSubscribe?.invoke() }
             .subscribe(
                     {
-                        onComplete?.invoke()
+                        onComplete.invoke()
                         onFinally?.invoke()
                     },
                     { error ->

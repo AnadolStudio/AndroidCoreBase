@@ -1,32 +1,28 @@
 package com.anadolstudio.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.anadolstudio.ui.viewmodel.livedata.onNext
 import com.anadolstudio.ui.viewmodel.livedata.toImmutable
 
 abstract class CoreContentViewModel<State : Any, NavigateData : Any>(
-        private val initState: State
+        protected val initState: State
 ) : CoreActionViewModel<NavigateData>() {
 
     protected val _stateLiveData = MutableLiveData(initState)
     val stateLiveData = _stateLiveData.toImmutable()
 
-    protected val state: State get() = _stateLiveData.value ?: initState
+    override val baseDelegate = CoreContentViewModelDelegate<State, NavigateData>(
+            initState = initState,
+            stateLiveData = _stateLiveData,
+            navigationEvent = _navigationEvent,
+            singleEvent = _singleEvent,
+    )
 
-    protected fun updateState(forceUpdate: Boolean = false, action: State.() -> State) {
-        val newState = action.invoke(state)
+    protected val state: State get() = baseDelegate.state
 
-        if (newState != state || forceUpdate) {
-            _stateLiveData.onNext(newState)
-        }
-    }
+    protected fun updateState(forceUpdate: Boolean = false, action: State.() -> State) =
+            baseDelegate.updateState(forceUpdate, action)
 
-    protected fun postUpdateState(forceUpdate: Boolean = false, action: State.() -> State) {
-        val newState = action.invoke(state)
-
-        if (newState != state || forceUpdate) {
-            _stateLiveData.postValue(newState)
-        }
-    }
+    protected fun postUpdateState(forceUpdate: Boolean = false, action: State.() -> State) =
+            baseDelegate.postUpdateState(forceUpdate, action)
 
 }
