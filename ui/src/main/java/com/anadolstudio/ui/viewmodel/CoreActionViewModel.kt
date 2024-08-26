@@ -33,6 +33,14 @@ abstract class CoreActionViewModel<NavigateData : Any> : ViewModel() {
 
     protected fun showTodo(text: String? = null) = baseDelegate.showTodo(text)
 
+    open fun onStop() = Unit
+
+    open fun onStart() = Unit
+
+    open fun onPause() = Unit
+
+    open fun onResume() = Unit
+
     override fun onCleared() {
         compositeDisposable.clear()
         baseDelegate.clear()

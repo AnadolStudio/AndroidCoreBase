@@ -3,14 +3,14 @@ package com.anadolstudio.ui.activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.anadolstudio.ui.navigation.NavigationEvent
 import com.anadolstudio.ui.Eventable
 import com.anadolstudio.ui.Navigatable
-import com.anadolstudio.ui.UiEntity
 import com.anadolstudio.ui.SingleErrorSnack
 import com.anadolstudio.ui.SingleErrorToast
 import com.anadolstudio.ui.SingleMessageSnack
 import com.anadolstudio.ui.SingleMessageToast
+import com.anadolstudio.ui.UiEntity
+import com.anadolstudio.ui.navigation.NavigationEvent
 import com.anadolstudio.ui.viewmodel.BaseController
 import com.anadolstudio.ui.viewmodel.CoreActionViewModel
 import com.anadolstudio.ui.viewmodel.livedata.SingleCustomEvent
@@ -42,6 +42,26 @@ abstract class CoreActionActivity<
     }
 
     protected abstract fun createViewModel(): ViewModel
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.onStop()
+    }
 
     override fun provideContext(): Context = this
 

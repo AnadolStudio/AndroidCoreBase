@@ -51,6 +51,26 @@ abstract class CoreActionDialogFragment<
 
     protected abstract fun createViewModelLazy(): Lazy<ViewModel>
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.onStop()
+    }
+
     override fun provideContext(): Context = requireContext()
 
     override fun provideRootView(): View = requireView()
