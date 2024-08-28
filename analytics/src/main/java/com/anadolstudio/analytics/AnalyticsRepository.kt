@@ -5,7 +5,7 @@ import com.anadolstudio.analytics.dsl.AnalyticDSL
 import com.anadolstudio.analytics.dsl.ParametersBuilder
 
 @AnalyticDSL
-interface AnalyticsController {
+interface AnalyticsRepository {
 
     @AnalyticDSL
     fun event(
@@ -47,14 +47,18 @@ interface AnalyticsController {
 
     @AnalyticDSL
     fun onClickEvent(
-            @StringRes name: Int, vararg formatArgs: Any,
+            @StringRes name: Int,
+            vararg formatArgs: Any,
+            builder: ParametersBuilder.() -> Unit = {},
     ) = onClickEvent {
         itemName(name, formatArgs)
+        builder.invoke(this)
     }
 
     @AnalyticDSL
-    fun onClickEvent(name: String) = onClickEvent {
+    fun onClickEvent(name: String, builder: ParametersBuilder.() -> Unit = {},) = onClickEvent {
         itemName(name)
+        builder.invoke(this)
     }
 
     @AnalyticDSL

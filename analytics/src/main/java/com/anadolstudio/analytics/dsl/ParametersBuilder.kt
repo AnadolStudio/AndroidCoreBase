@@ -19,6 +19,9 @@ class ParametersBuilder(
     fun param(@StringRes key: Int, value: String?) = param(getString(key, arrayOf()), value)
 
     @AnalyticDSL
+    fun paramAny(@StringRes key: Int, value: Any?) = param(getString(key, arrayOf()), value?.toString())
+
+    @AnalyticDSL
     fun param(
             @StringRes key: Int,
             @StringRes value: Int,
