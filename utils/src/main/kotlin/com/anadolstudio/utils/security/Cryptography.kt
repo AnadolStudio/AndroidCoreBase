@@ -15,12 +15,14 @@ class Cryptography {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
                         .signingInfo
-                        .apkContentsSigners
+                        ?.apkContentsSigners
             } else {
                 getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
                         .signatures
             }
         }
+
+        signatures ?: throw IllegalArgumentException("Signatures is null")
 
         return sha256(signatures.first().toByteArray())
     }

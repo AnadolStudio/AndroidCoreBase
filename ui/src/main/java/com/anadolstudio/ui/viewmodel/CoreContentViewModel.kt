@@ -10,10 +10,9 @@ abstract class CoreContentViewModel<State : Any, NavigateData : Any>(
     protected val _stateLiveData = MutableLiveData(initState)
     val stateLiveData = _stateLiveData.toImmutable()
 
-    override val baseDelegate = CoreContentViewModelDelegate<State, NavigateData>(
+    override val baseDelegate = CoreContentViewModelDelegate<State>(
             initState = initState,
             stateLiveData = _stateLiveData,
-            navigationEvent = _navigationEvent,
             singleEvent = _singleEvent,
     )
 

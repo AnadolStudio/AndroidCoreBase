@@ -16,11 +16,10 @@ abstract class CoreActionViewModel<NavigateData : Any> : ViewModel() {
     protected val _singleEvent = SingleLiveEvent<SingleEvent>()
     val event = _singleEvent.toImmutable()
 
-    protected val delegateList = mutableListOf<CoreActionViewModelDelegate<NavigateData>>()
+    protected val delegateList = mutableListOf<CoreActionViewModelDelegate>()
 
-    protected open val baseDelegate: CoreActionViewModelDelegate<NavigateData> = CoreActionViewModelDelegate(
-            navigationEvent = _navigationEvent,
-            singleEvent = _singleEvent,
+    protected open val baseDelegate: CoreActionViewModelDelegate = CoreActionViewModelDelegate(
+        singleEvent = _singleEvent,
     )
 
     private val compositeDisposable by lazy { CompositeDisposable() }
@@ -51,7 +50,7 @@ abstract class CoreActionViewModel<NavigateData : Any> : ViewModel() {
 
     protected fun Disposable?.disposeOnCleared(): Disposable? = this?.also(compositeDisposable::add)
 
-    protected inline fun <reified T : CoreActionViewModelDelegate<NavigateData>> T.registerDelegate(): T =
-            this.also(delegateList::add)
+    protected inline fun <reified T : CoreActionViewModelDelegate> T.registerDelegate(): T =
+        this.also(delegateList::add)
 
 }
