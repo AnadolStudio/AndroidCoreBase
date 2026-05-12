@@ -4,9 +4,9 @@ package com.anadolstudio.utils.states.lce
 
 import com.anadolstudio.utils.states.LoadingContext
 import com.anadolstudio.utils.states.ProgressState
-import com.anadolstudio.utils.states.toStartState
 import com.anadolstudio.utils.states.toContent
 import com.anadolstudio.utils.states.toError
+import com.anadolstudio.utils.states.toStartState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -25,8 +25,8 @@ import kotlinx.coroutines.flow.transformLatest
 typealias LceFlow<T> = Flow<Lce<T>>
 typealias LceStateFlow = Flow<LceState>
 
-inline fun <T> lceFlow(crossinline block: suspend FlowCollector<T>.() -> Unit): LceFlow<T> {
-    return flow { block() }.mapToLce()
+inline fun <T> lceFlow(crossinline block: suspend () -> T): LceFlow<T> {
+    return flow { emit(block()) }.mapToLce()
 }
 
 /**
@@ -57,12 +57,12 @@ fun Flow<Unit>.mapToLce(): LceStateFlow {
         }
 }
 
-inline fun <T, R> LceFlow<T>.mapLceContent(crossinline transform: suspend (T) -> R): LceFlow<R> {
+inline fun <T, R> LceFlow<T>.mapContent(crossinline transform: suspend (T) -> R): LceFlow<R> {
     return map { lce -> lce.mapContent { transform(it) } }
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
-inline fun <T, R> LceFlow<T>.flatMapLceContent(crossinline transform: suspend (T) -> LceFlow<R>): LceFlow<R> {
+inline fun <T, R> LceFlow<T>.flatMapContent(crossinline transform: suspend (T) -> LceFlow<R>): LceFlow<R> {
     return transformLatest { lce ->
         when (lce) {
             is Lce.Content -> emitAll(transform(lce.value))
@@ -77,17 +77,6 @@ inline fun LceStateFlow.flatMapContentState(crossinline transform: suspend () ->
     return transformLatest { lce ->
         when (lce) {
             is LceState.Content -> emitAll(transform())
-            is Lce.Error -> emit(lce)
-            is Lce.Loading -> emit(lce)
-        }
-    }
-}
-
-@OptIn(ExperimentalCoroutinesApi::class)
-inline fun <T, R> LceFlow<T>.flatMapContent(crossinline transform: suspend (T) -> LceFlow<R>): LceFlow<R> {
-    return transformLatest { lce ->
-        when (lce) {
-            is Lce.Content -> emitAll(transform(lce.value))
             is Lce.Error -> emit(lce)
             is Lce.Loading -> emit(lce)
         }
